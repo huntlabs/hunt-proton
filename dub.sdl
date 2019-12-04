@@ -1,0 +1,7 @@
+name "hunt-proton"
+description "Proton library for D Programming Language."
+copyright "Copyright © 2019, HuntLabs"
+homepage "https://www.huntlabs.net"
+license "Apache-2.0"
+dependency "hunt" version="~>1.4.0"
+dependency "hunt-time" version="~>1.0.0"
