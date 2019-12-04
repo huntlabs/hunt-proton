@@ -1,5 +1,5 @@
 name "hunt-proton"
-description "Proton library for D Programming Language."
+description "AMQP Protocol library for D programming language."
 copyright "Copyright © 2019, HuntLabs"
 homepage "https://www.huntlabs.net"
 license "Apache-2.0"
