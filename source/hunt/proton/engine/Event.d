@@ -90,7 +90,7 @@ import std.concurrency : initOnce;
 //}
 
 
-class Type : AbstractEnum!int , EventType {
+class Type : AbstractEnum!Type , EventType {
 
 
     static Type  REACTOR_INIT() {

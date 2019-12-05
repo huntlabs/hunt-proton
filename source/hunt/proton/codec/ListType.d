@@ -293,7 +293,10 @@ class ListType : AbstractPrimitiveType!(List!Object)
     {
         int len = 0;
         int count = val.size();
-        logInfo("^^^^^^^ count : %d ^^^^ " , count );
+        version(HUNT_DEBUG)
+        {
+          logInfo("^^^^^^^ count : %d ^^^^ " , count );
+        }
         for(int i = 0; i < count; i++)
         {
             Object element = val.get(i);

@@ -289,7 +289,6 @@ class SessionImpl : EndpointImpl , ProtonJSession
             throw new IllegalArgumentException("Value '" ~ to!string(outgoingWindow) ~ "' must be in the"
                     ~ " range [0 - 2^32-1]");
         }
-        logInfo("!!!!!!!!!!!!!!!!!!!setOutgoingWindow!!!!!!!!!!!!!!!!!!! %d",outgoingWindow);
         _outgoingWindow = outgoingWindow;
     }
 

@@ -54,7 +54,6 @@ class TransportOutputAdaptor : TransportOutput
 
         if(_outputBuffer is null)
         {
-             logInfo("TransportOutputAdaptor _outputBuffer init ");
             init_buffers();
         }
        // logInfof("pending ------- %s",_outputBuffer.getRemaining());

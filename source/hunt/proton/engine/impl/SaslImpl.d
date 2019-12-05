@@ -825,10 +825,12 @@ class SaslImpl : Sasl, SaslFrameBodyHandler!Void, SaslFrameHandler, TransportLay
         override
         public int pending()
         {
+          version(HUNT_DEBUG)
+          {
             logInfo("isOutputInSaslMode : %d  -----------pos: %d",isOutputInSaslMode(),_outputBuffer.position());
+          }
             if (isOutputInSaslMode() || _outputBuffer.position() != 0)
             {
-                logInfo("saslimpl pending ...... in !!!!!");
                 fillOutputBuffer();
                 _head.limit(_outputBuffer.position());
 
@@ -843,7 +845,6 @@ class SaslImpl : Sasl, SaslFrameBodyHandler!Void, SaslFrameHandler, TransportLay
             }
             else
             {
-                logInfo("saslimpl pending ...... out !!!!!");
                 _parent.switchToNextOutput();
                 return _underlyingOutput.pending();
             }

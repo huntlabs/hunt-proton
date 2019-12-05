@@ -186,7 +186,6 @@ class DataImpl : Data
     override
     public Binary encode()
     {
-        logInfo("%d",encodedSize());
         byte[] data = new byte[cast(int)(encodedSize())];
         ByteBuffer buf = BufferUtils.toBuffer(data);
         encode(buf);

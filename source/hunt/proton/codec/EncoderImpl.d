@@ -251,7 +251,6 @@ class EncoderImpl : ByteBufferEncoder
         //}
         //else
         //{
-            logInfo("bbbbbb %s",clazz.toString);
             if (typeid(SaslOutcomeWrapper) == clazz)
             {
                 amqpType = _listType;

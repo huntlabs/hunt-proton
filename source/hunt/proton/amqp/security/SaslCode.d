@@ -16,7 +16,7 @@ import hunt.proton.amqp.UnsignedByte;
 import hunt.Enum;
 import std.concurrency : initOnce;
 import hunt.util.ObjectUtils;
-class SaslCode : AbstractEnum!int
+class SaslCode : AbstractEnum!SaslCode
 {
     //__gshared SaslCode OK;
     //__gshared SaslCode AUTH;

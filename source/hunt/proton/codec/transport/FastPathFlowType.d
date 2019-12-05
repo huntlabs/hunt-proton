@@ -25,6 +25,7 @@ import hunt.proton.codec.FastPathDescribedTypeConstructor;
 import hunt.proton.codec.TypeEncoding;
 import hunt.proton.codec.WritableBuffer;
 import  hunt.proton.codec.transport.FlowType;
+import hunt.Object;
 import std.concurrency : initOnce;
 import hunt.Exceptions;
 import hunt.logging;
@@ -147,8 +148,8 @@ class FastPathFlowType : AMQPType!(Flow), FastPathDescribedTypeConstructor!(Flow
                     flow.setEcho(new Boolean( decoder.readBoolean(false)));
                     break;
                 case 10:
-                    implementationMissing(false);
-                    //flow.setProperties(decoder.readMap());
+                    //implementationMissing(false);
+                    flow.setProperties(cast(IObject)decoder.readMap());
                     break;
                 default:
                     throw new IllegalStateException("To many entries in Flow encoding");
