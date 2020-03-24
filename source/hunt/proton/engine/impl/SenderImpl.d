@@ -77,7 +77,6 @@ class SenderImpl  : LinkImpl , Sender
     override
     public int sendNoCopy(ReadableBuffer buffer)
     {
-       version(HUNT_DEBUG) logInfof("xxxxxxxxxxxxxxxxxxxxxxxxx %s",buffer.array);
         if (getLocalState() == EndpointState.CLOSED)
         {
             throw new IllegalStateException("send not allowed after the sender is closed.");
