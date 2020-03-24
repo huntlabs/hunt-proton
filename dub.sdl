@@ -1,6 +1,6 @@
 name "hunt-proton"
 description "AMQP Protocol library for D programming language."
-copyright "Copyright © 2019, HuntLabs"
+copyright "Copyright © 2019-2020, HuntLabs"
 homepage "https://www.huntlabs.net"
 license "Apache-2.0"
-dependency "hunt-time" path="../hunt-time"
+dependency "hunt-time" version="~>1.0.2"

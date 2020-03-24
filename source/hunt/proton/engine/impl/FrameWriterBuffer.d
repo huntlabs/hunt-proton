@@ -226,8 +226,13 @@ class FrameWriterBuffer : WritableBuffer {
         // space previously allocated and not extend the array if possible.
         if (size != _position) {
             int remainder = _position - size;
+
             //System.arraycopy(array, size, array, 0, remainder);
-            _array[0 .. remainder] = _array[size .. size + remainder];
+            // _array[0 .. remainder] = _array[size .. _position].dup;
+            for(int i =0; i< remainder; i++) {
+                _array[i] = _array[size+i];
+            }
+
             _position = remainder;  // ensure we are at end of unread chunk
         } else {
             _position = 0; // reset to empty state.
