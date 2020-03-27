@@ -109,22 +109,22 @@ class FrameWriter {
         int performativeSize = writePerformative(frameBody, payload, onPayloadTooLarge);
         if (cast(Begin)frameBody !is null)
         {
-          version(HUNT_DEBUG)   logInfo("begin size ---------------------- %d", performativeSize);
+          version(HUNT_AMQP_DEBUG)   logInfof("begin size: %d", performativeSize);
         }
         if (cast(Open)frameBody !is null)
         {
-          version(HUNT_DEBUG)  logInfo("Open size ---------------------- %d", performativeSize);
+          version(HUNT_AMQP_DEBUG)  logInfof("Open size: %d", performativeSize);
         }
 
 
         if (cast(Open)frameBody !is null)
         {
-          version(HUNT_DEBUG) logInfo("Open size ---------------------- %d", performativeSize);
+          version(HUNT_AMQP_DEBUG) logInfof("Open size: %d", performativeSize);
         }
         if (cast(Attach)frameBody !is null)
         {
             Attach at = cast(Attach)frameBody;
-            version(HUNT_DEBUG)  logInfo ("%s", at.toString);
+            version(HUNT_AMQP_DEBUG)  logInfof ("%s", at.toString);
         }
 
         int capacity = maxFrameSize > 0 ? maxFrameSize - performativeSize : 2147483647;
@@ -132,12 +132,7 @@ class FrameWriter {
 
         if (cast(Transfer)frameBody !is null)
         {
-            if (payload is null )
-            {
-              version(HUNT_DEBUG)  logInfo("NULLLLLLLLLLLLLLLLLLLLLLLLL");
-            }
-
-            version(HUNT_DEBUG)  logInfo("Transfer size ---------------------- %d ---%d ----%d", performativeSize, capacity , payloadSize);
+            version(HUNT_AMQP_DEBUG)  logInfo("Transfer size: %d ---%d ----%d", performativeSize, capacity , payloadSize);
         }
 
         if (transport.isFrameTracingEnabled()) {

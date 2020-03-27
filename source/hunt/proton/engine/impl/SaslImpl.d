@@ -51,7 +51,7 @@ import std.conv:to;
 class SaslImpl : Sasl, SaslFrameBodyHandler!Void, SaslFrameHandler, TransportLayer
 {
 
-    public static byte SASL_FRAME_TYPE = cast(byte) 1;
+    static byte SASL_FRAME_TYPE = cast(byte) 1;
     private static string HEADER_DESCRIPTION = "SASL";
 
     private DecoderImpl _decoder ;// = new DecoderImpl();
@@ -123,7 +123,7 @@ class SaslImpl : Sasl, SaslFrameBodyHandler!Void, SaslFrameHandler, TransportLay
     }
 
     override
-    public bool isDone()
+    bool isDone()
     {
         return _done && (_role==Role.CLIENT || _initReceived);
     }
@@ -194,7 +194,7 @@ class SaslImpl : Sasl, SaslFrameBodyHandler!Void, SaslFrameHandler, TransportLay
     }
 
     override
-    public int recv(byte[] bytes, int offset, int size)
+    int recv(byte[] bytes, int offset, int size)
     {
         if(_pending is null)
         {
@@ -209,7 +209,7 @@ class SaslImpl : Sasl, SaslFrameBodyHandler!Void, SaslFrameHandler, TransportLay
     }
 
     override
-    public int send(byte[] bytes, int offset, int size)
+    int send(byte[] bytes, int offset, int size)
     {
         byte[] data = new byte[size];
         //System.arraycopy(bytes, offset, data, 0, size);
@@ -248,7 +248,7 @@ class SaslImpl : Sasl, SaslFrameBodyHandler!Void, SaslFrameHandler, TransportLay
     }
 
     override
-    public int pending()
+    int pending()
     {
         return _pending is null ? 0 : _pending.remaining();
     }
@@ -259,7 +259,7 @@ class SaslImpl : Sasl, SaslFrameBodyHandler!Void, SaslFrameHandler, TransportLay
     }
 
     override
-    public SaslState getState()
+    SaslState getState()
     {
         return _state;
     }
@@ -275,7 +275,7 @@ class SaslImpl : Sasl, SaslFrameBodyHandler!Void, SaslFrameHandler, TransportLay
     }
 
     override
-    public void setMechanisms(string[] mechanisms)
+    void setMechanisms(string[] mechanisms)
     {
         if(mechanisms !is null && mechanisms.length != 0)
         {
@@ -296,7 +296,7 @@ class SaslImpl : Sasl, SaslFrameBodyHandler!Void, SaslFrameHandler, TransportLay
     }
 
     override
-    public string[] getRemoteMechanisms()
+    string[] getRemoteMechanisms()
     {
         if(_role == Role.SERVER)
         {
@@ -335,23 +335,23 @@ class SaslImpl : Sasl, SaslFrameBodyHandler!Void, SaslFrameHandler, TransportLay
         }
     }
 
-    public void setMechanism(Symbol mechanism)
+    void setMechanism(Symbol mechanism)
     {
         _chosenMechanism = mechanism;
     }
 
-    public Symbol getChosenMechanism()
+    Symbol getChosenMechanism()
     {
         return _chosenMechanism;
     }
 
-    public void setResponse(Binary initialResponse)
+    void setResponse(Binary initialResponse)
     {
         setPending(initialResponse.asByteBuffer());
     }
 
     override
-    public void handle(SaslFrameBody o, Binary payload)
+    void handle(SaslFrameBody o, Binary payload)
     {
         SaslMechanisms frameBody = cast(SaslMechanisms)o;
         if (frameBody !is null)
@@ -429,7 +429,7 @@ class SaslImpl : Sasl, SaslFrameBodyHandler!Void, SaslFrameHandler, TransportLay
     }
 
     override
-    public void handleInit(SaslInit saslInit, Binary payload, Void context)
+    void handleInit(SaslInit saslInit, Binary payload, Void context)
     {
         if(_role  == Role.SERVER)
         {
@@ -456,7 +456,7 @@ class SaslImpl : Sasl, SaslFrameBodyHandler!Void, SaslFrameHandler, TransportLay
     }
 
     override
-    public void handleResponse(SaslResponse saslResponse, Binary payload, Void context)
+    void handleResponse(SaslResponse saslResponse, Binary payload, Void context)
     {
         checkRole(Role.SERVER);
         setPending(saslResponse.getResponse()  is null ? null : saslResponse.getResponse().asByteBuffer());
@@ -467,7 +467,7 @@ class SaslImpl : Sasl, SaslFrameBodyHandler!Void, SaslFrameHandler, TransportLay
     }
 
     override
-    public void done(hunt.proton.engine.Sasl.SaslOutcome outcome)
+    void done(hunt.proton.engine.Sasl.SaslOutcome outcome)
     {
         checkRole(Role.SERVER);
         _outcome = outcome;
@@ -487,7 +487,7 @@ class SaslImpl : Sasl, SaslFrameBodyHandler!Void, SaslFrameHandler, TransportLay
     }
 
     override
-    public void handleMechanisms(SaslMechanisms saslMechanisms, Binary payload, Void context)
+    void handleMechanisms(SaslMechanisms saslMechanisms, Binary payload, Void context)
     {
         if(_role  == Role.CLIENT)
         {
@@ -509,7 +509,7 @@ class SaslImpl : Sasl, SaslFrameBodyHandler!Void, SaslFrameHandler, TransportLay
     }
 
     override
-    public void handleChallenge(SaslChallenge saslChallenge, Binary payload, Void context)
+    void handleChallenge(SaslChallenge saslChallenge, Binary payload, Void context)
     {
         checkRole(Role.CLIENT);
         setPending(saslChallenge.getChallenge()  is null ? null : saslChallenge.getChallenge().asByteBuffer());
@@ -520,7 +520,7 @@ class SaslImpl : Sasl, SaslFrameBodyHandler!Void, SaslFrameHandler, TransportLay
     }
 
     override
-    public void handleOutcome(hunt.proton.amqp.security.SaslOutcome.SaslOutcome saslOutcome,
+    void handleOutcome(hunt.proton.amqp.security.SaslOutcome.SaslOutcome saslOutcome,
                               Binary payload,
                               Void context)
     {
@@ -575,11 +575,10 @@ class SaslImpl : Sasl, SaslFrameBodyHandler!Void, SaslFrameHandler, TransportLay
             setChallengeResponse(null);
         }
         _initSent = true;
-        logInfo("_initSent   true !!!!!!!!!!!!!!");
         writeFrame(init);
     }
 
-    public void plain(String username, String password)
+    void plain(String username, String password)
     {
         client();
         _chosenMechanism = Symbol.valueOf("PLAIN");
@@ -594,13 +593,13 @@ class SaslImpl : Sasl, SaslFrameBodyHandler!Void, SaslFrameHandler, TransportLay
     }
 
     override
-    public hunt.proton.engine.Sasl.SaslOutcome getOutcome()
+    hunt.proton.engine.Sasl.SaslOutcome getOutcome()
     {
         return _outcome;
     }
 
     override
-    public void client()
+    void client()
     {
         _role = Role.CLIENT;
         if(_mechanisms !is null)
@@ -612,19 +611,19 @@ class SaslImpl : Sasl, SaslFrameBodyHandler!Void, SaslFrameHandler, TransportLay
     }
 
     override
-    public void server()
+    void server()
     {
         _role = Role.SERVER;
     }
 
     override
-    public void allowSkip(bool allowSkip)
+    void allowSkip(bool allowSkip)
     {
         _allowSkip = allowSkip;
     }
 
     override
-    public TransportWrapper wrap(TransportInput input, TransportOutput output)
+    TransportWrapper wrap(TransportInput input, TransportOutput output)
     {
         return new class SaslSniffer {
 
@@ -646,7 +645,7 @@ class SaslImpl : Sasl, SaslFrameBodyHandler!Void, SaslFrameHandler, TransportLay
     }
 
     //override
-    //public String toString()
+    //String toString()
     //{
     //    StringBuilder builder = new StringBuilder();
     //    builder
@@ -716,7 +715,7 @@ class SaslImpl : Sasl, SaslFrameBodyHandler!Void, SaslFrameHandler, TransportLay
         }
 
         override
-        public int capacity()
+        int capacity()
         {
             if (_tail_closed) return Transport.END_OF_STREAM;
             if (isInputInSaslMode())
@@ -730,7 +729,7 @@ class SaslImpl : Sasl, SaslFrameBodyHandler!Void, SaslFrameHandler, TransportLay
         }
 
         override
-        public int position()
+        int position()
         {
             if (_tail_closed) return Transport.END_OF_STREAM;
             if (isInputInSaslMode())
@@ -744,7 +743,7 @@ class SaslImpl : Sasl, SaslFrameBodyHandler!Void, SaslFrameHandler, TransportLay
         }
 
         override
-        public ByteBuffer tail()
+        ByteBuffer tail()
         {
             if (!isInputInSaslMode())
             {
@@ -755,7 +754,7 @@ class SaslImpl : Sasl, SaslFrameBodyHandler!Void, SaslFrameHandler, TransportLay
         }
 
         override
-        public void process()
+        void process()
         {
             _inputBuffer.flip();
 
@@ -770,7 +769,7 @@ class SaslImpl : Sasl, SaslFrameBodyHandler!Void, SaslFrameHandler, TransportLay
         }
 
         override
-        public void close_tail()
+        void close_tail()
         {
             _tail_closed = true;
             if (isInputInSaslMode()) {
@@ -823,11 +822,11 @@ class SaslImpl : Sasl, SaslFrameBodyHandler!Void, SaslFrameHandler, TransportLay
         }
 
         override
-        public int pending()
+        int pending()
         {
-          version(HUNT_DEBUG)
+          version(HUNT_AMQP_DEBUG)
           {
-            logInfo("isOutputInSaslMode : %d  -----------pos: %d",isOutputInSaslMode(),_outputBuffer.position());
+            logInfof("isOutputInSaslMode : %d  -----------pos: %d",isOutputInSaslMode(),_outputBuffer.position());
           }
             if (isOutputInSaslMode() || _outputBuffer.position() != 0)
             {
@@ -851,7 +850,7 @@ class SaslImpl : Sasl, SaslFrameBodyHandler!Void, SaslFrameHandler, TransportLay
         }
 
         override
-        public ByteBuffer head()
+        ByteBuffer head()
         {
             if (isOutputInSaslMode() || _outputBuffer.position() != 0)
             {
@@ -866,7 +865,7 @@ class SaslImpl : Sasl, SaslFrameBodyHandler!Void, SaslFrameHandler, TransportLay
         }
 
         override
-        public void pop(int bytes)
+        void pop(int bytes)
         {
             if (isOutputInSaslMode() || _outputBuffer.position() != 0)
             {
@@ -884,7 +883,7 @@ class SaslImpl : Sasl, SaslFrameBodyHandler!Void, SaslFrameHandler, TransportLay
         }
 
         override
-        public void close_head()
+        void close_head()
         {
             _parent.switchToNextOutput();
             _underlyingOutput.close_head();
@@ -922,39 +921,39 @@ class SaslImpl : Sasl, SaslFrameBodyHandler!Void, SaslFrameHandler, TransportLay
             currentOutput = saslProcessor;
         }
 
-        public int capacity() {
+        int capacity() {
             return currentInput.capacity();
         }
 
-        public int position() {
+        int position() {
             return currentInput.position();
         }
 
-        public ByteBuffer tail()  {
+        ByteBuffer tail()  {
             return currentInput.tail();
         }
 
-        public void process()  {
+        void process()  {
             currentInput.process();
         }
 
-        public void close_tail() {
+        void close_tail() {
             currentInput.close_tail();
         }
 
-        public int pending() {
+        int pending() {
             return currentOutput.pending();
         }
 
-        public ByteBuffer head() {
+        ByteBuffer head() {
             return currentOutput.head();
         }
 
-        public void pop(int bytes) {
+        void pop(int bytes) {
             currentOutput.pop(bytes);
         }
 
-        public void close_head() {
+        void close_head() {
             currentOutput.close_head();
         }
 
@@ -967,7 +966,7 @@ class SaslImpl : Sasl, SaslFrameBodyHandler!Void, SaslFrameHandler, TransportLay
         }
     }
 
-    public string getHostname()
+    string getHostname()
     {
         //if(_role = Role.CLIENT)
         //{
@@ -977,7 +976,7 @@ class SaslImpl : Sasl, SaslFrameBodyHandler!Void, SaslFrameHandler, TransportLay
         return _hostname;
     }
 
-    public void setRemoteHostname(string hostname)
+    void setRemoteHostname(string hostname)
     {
         //if(_role !is null)
         //{
@@ -988,7 +987,7 @@ class SaslImpl : Sasl, SaslFrameBodyHandler!Void, SaslFrameHandler, TransportLay
     }
 
     override
-    public void setListener(SaslListener saslListener) {
+    void setListener(SaslListener saslListener) {
         _saslListener = saslListener;
     }
 }

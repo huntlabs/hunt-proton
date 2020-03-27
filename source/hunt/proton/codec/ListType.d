@@ -293,17 +293,17 @@ class ListType : AbstractPrimitiveType!(List!Object)
     {
         int len = 0;
         int count = val.size();
-        version(HUNT_DEBUG)
+        version(HUNT_AMQP_DEBUG)
         {
-          logInfo("^^^^^^^ count : %d ^^^^ " , count );
+          logInfof("count : %d" , count );
         }
         for(int i = 0; i < count; i++)
         {
             Object element = val.get(i);
-            //logInfo("^^^^^^^ i : %d ^^^^ " , i );
+            //logInfo("i : %d" , i );
             //if (element !is null)
             //{
-            //    logInfo("^^^^^^^  %s ^^^^ " ,  typeid(element).toString );
+            //    logInfo(" %s" ,  typeid(element).toString );
             //}
             IAMQPType type = encoder.getType(element);
             //if (cast( NullType)type !is null)
