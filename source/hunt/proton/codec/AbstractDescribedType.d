@@ -15,13 +15,15 @@ import hunt.proton.codec.DecoderImpl;
 import hunt.proton.codec.EncoderImpl;
 import hunt.proton.codec.TypeEncoding;
 import hunt.proton.codec.AMQPType;
+import hunt.proton.codec.EncodingCodes;
+import hunt.proton.amqp.UnsignedLong;
+
 import hunt.collection.Map;
 import hunt.collection.HashMap;
-import hunt.proton.amqp.UnsignedLong;
 import hunt.collection.Collection;
-import hunt.proton.codec.EncodingCodes;
-import hunt.Exceptions;
 import hunt.collection.ArrayList;
+import hunt.Exceptions;
+import hunt.logging.ConsoleLogger;
 
 abstract class AbstractDescribedType(T,M) : AMQPType!(T)  //!(AmqpValue,Object)
 {
@@ -70,13 +72,13 @@ abstract class AbstractDescribedType(T,M) : AMQPType!(T)  //!(AmqpValue,Object)
 
         IAMQPType tt = _encoder.getType(cast(Object)asUnderlying);
        // IAMQPType tt = _encoder.getType(cast(Object)asUnderlying,typeid(M));
-        TypeEncoding!(M) underlyingEncoding ;
-        //AMQPType!M rt = cast(AMQPType!M)tt;
+       ITypeEncoding typeEncoding = tt.getEncoding(cast(Object)asUnderlying);
+        TypeEncoding!(M) underlyingEncoding = cast(TypeEncoding!(M))typeEncoding;
 
-        //if (rt !is null)
-        //{
-            underlyingEncoding = cast(TypeEncoding!(M))tt.getEncoding(cast(Object)asUnderlying);
-        //}
+        if(underlyingEncoding is null) {
+            warningf("Wrong casting from %s to %s", typeid(typeEncoding), typeid(TypeEncoding!(M)));
+            return null;
+        }
 
        // TypeEncoding!(M) underlyingEncoding = (cast(AMQPType!M)(_encoder.getType(cast(Object)asUnderlying,this.getTypeClass()))).getEncoding(asUnderlying);
         TypeEncoding!(T) encoding = _encodings.get(underlyingEncoding);
@@ -111,8 +113,12 @@ abstract class AbstractDescribedType(T,M) : AMQPType!(T)  //!(AmqpValue,Object)
         //T t = cast(T)val;
         //assert(t !is null);
         ITypeEncoding encoding = getEncoding(val);
-        encoding.writeConstructor();
-        encoding.writeValue(val);
+        if(encoding is null) {
+            warning("encoding is null");
+        } else {
+            encoding.writeConstructor();
+            encoding.writeValue(val);
+        }
     }
 
     class DynamicDescribedTypeEncoding : TypeEncoding!(T)
