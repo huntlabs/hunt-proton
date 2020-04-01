@@ -101,19 +101,21 @@ class FrameWriter {
     void writeFrame(int channel, Object frameBody, ReadableBuffer payload, Runnable onPayloadTooLarge) {
         frameStart = frameBuffer.position();
 
-        if (cast(Begin)frameBody !is null)
-        {
-            logInfo(".");
+        version(HUNT_AMQP_DEBUG) {
+            if (cast(Begin)frameBody !is null)
+            {
+                logInfo(".");
+            }
         }
 
         int performativeSize = writePerformative(frameBody, payload, onPayloadTooLarge);
         if (cast(Begin)frameBody !is null)
         {
-          version(HUNT_AMQP_DEBUG)   logInfof("begin size: %d", performativeSize);
+          version(HUNT_AMQP_DEBUG) logInfof("begin size: %d", performativeSize);
         }
         if (cast(Open)frameBody !is null)
         {
-          version(HUNT_AMQP_DEBUG)  logInfof("Open size: %d", performativeSize);
+          version(HUNT_AMQP_DEBUG) logInfof("Open size: %d", performativeSize);
         }
 
 
