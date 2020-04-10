@@ -121,12 +121,12 @@ class FrameWriter {
 
         if (cast(Open)frameBody !is null)
         {
-          version(HUNT_AMQP_DEBUG) logInfof("Open size: %d", performativeSize);
+          version(HUNT_AMQP_DEBUG) tracef("Open size: %d", performativeSize);
         }
         if (cast(Attach)frameBody !is null)
         {
             Attach at = cast(Attach)frameBody;
-            version(HUNT_AMQP_DEBUG)  logInfof ("%s", at.toString);
+            version(HUNT_AMQP_DEBUG)  tracef ("%s", at.toString);
         }
 
         int capacity = maxFrameSize > 0 ? maxFrameSize - performativeSize : 2147483647;
@@ -134,7 +134,7 @@ class FrameWriter {
 
         if (cast(Transfer)frameBody !is null)
         {
-            version(HUNT_AMQP_DEBUG)  logInfo("Transfer size: %d ---%d ----%d", performativeSize, capacity , payloadSize);
+            version(HUNT_AMQP_DEBUG)  tracef("Transfer size: %d ---%d ----%d", performativeSize, capacity , payloadSize);
         }
 
         if (transport.isFrameTracingEnabled()) {

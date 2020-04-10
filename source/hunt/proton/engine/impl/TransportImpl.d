@@ -1175,7 +1175,7 @@ class TransportImpl : EndpointImpl, ProtonJTransport, FrameBodyHandler!int,
             !_isCloseSent) {
             if(!hasSendableMessages(null))
             {
-              //  logInfo("processClose in -----------------");
+               logInfo("processClose in -----------------");
                 Close close = new Close();
 
                 ErrorCondition localError;
@@ -1452,7 +1452,9 @@ class TransportImpl : EndpointImpl, ProtonJTransport, FrameBodyHandler!int,
                 LinkImpl link = cast(LinkImpl)(transportLink.getLink());
                 transportLink.receivedDetach();
                 transportSession.freeRemoteHandle(transportLink.getRemoteHandle());
-                if (detach.getClosed().booleanValue()) {
+
+                Boolean b = detach.getClosed();
+                if (b !is null && b.booleanValue()) {
                     _connectionEndpoint.put(Type.LINK_REMOTE_CLOSE, link);
                 } else {
                     _connectionEndpoint.put(Type.LINK_REMOTE_DETACH, link);
@@ -1568,9 +1570,11 @@ class TransportImpl : EndpointImpl, ProtonJTransport, FrameBodyHandler!int,
             detach.invoke(this,frame.getPayload(), frame.getChannel());
             return _closeReceived;
         }
+
         Close close = cast(Close)frame.getBody();
         if (close !is null)
         {
+            warning("ddddddddddddddd");
             close.invoke(this,frame.getPayload(), frame.getChannel());
             return _closeReceived;
         }
@@ -1605,6 +1609,9 @@ class TransportImpl : EndpointImpl, ProtonJTransport, FrameBodyHandler!int,
             return _closeReceived;
         }
       //  (cast(FrameBodyHandler!int)frame.getBody()).invoke(this,frame.getPayload(), frame.getChannel());
+
+        auto b = cast(Object)frame.getBody();
+        warning("unhandled: ", typeid(b));
         return _closeReceived;
     }
 
@@ -1734,10 +1741,6 @@ class TransportImpl : EndpointImpl, ProtonJTransport, FrameBodyHandler!int,
     public int pending()
     {
         init();
-        //version(HUNT_DEBUG)
-        //{
-          //  logInfof("ttttttttttttttt %s",typeid(cast(Object)_outputProcessor));
-        //}
         return _outputProcessor.pending();
     }
 

@@ -16,28 +16,31 @@ import hunt.proton.engine.EndpointState;
 import hunt.proton.engine.Event;
 import hunt.proton.engine.ProtonJEndpoint;
 import hunt.proton.engine.Record;
-import hunt.Exceptions;
 import hunt.proton.engine.impl.RecordImpl;
 import hunt.proton.engine.impl.ConnectionImpl;
 import hunt.proton.engine.impl.TransportImpl;
 
-class EndpointImpl : ProtonJEndpoint
-{
+import hunt.Exceptions;
+import hunt.logging.ConsoleLogger;
+
+/**
+ * 
+ */
+class EndpointImpl : ProtonJEndpoint {
     private EndpointState _localState = EndpointState.UNINITIALIZED;
     private EndpointState _remoteState = EndpointState.UNINITIALIZED;
-    private ErrorCondition _localError ; //= new ErrorCondition();
-    private ErrorCondition _remoteError ;// = new ErrorCondition();
+    private ErrorCondition _localError; //= new ErrorCondition();
+    private ErrorCondition _remoteError; // = new ErrorCondition();
     private bool _modified;
     private EndpointImpl _transportNext;
     private EndpointImpl _transportPrev;
     private Object _context;
-    private Record _attachments ;//= new RecordImpl();
+    private Record _attachments; //= new RecordImpl();
 
     private int refcount = 1;
     bool freed = false;
 
-    this()
-    {
+    this() {
         _localError = new ErrorCondition();
         _remoteError = new ErrorCondition();
         _attachments = new RecordImpl();
@@ -62,85 +65,62 @@ class EndpointImpl : ProtonJEndpoint
 
     abstract void localClose();
 
-    
-    public void open()
-    {
-        if (getLocalState() != EndpointState.ACTIVE)
-        {
+    void open() {
+        if (getLocalState() != EndpointState.ACTIVE) {
             _localState = EndpointState.ACTIVE;
             localOpen();
             modified();
         }
     }
 
-    
-    public void close()
-    {
-        if (getLocalState() != EndpointState.CLOSED)
-        {
+    void close() {
+        warning(getLocalState());
+        if (getLocalState() != EndpointState.CLOSED) {
             _localState = EndpointState.CLOSED;
             localClose();
             modified();
         }
     }
 
-    
-    public EndpointState getLocalState()
-    {
+    EndpointState getLocalState() {
         return _localState;
     }
 
-    
-    public EndpointState getRemoteState()
-    {
+    EndpointState getRemoteState() {
         return _remoteState;
     }
 
-    
-    public ErrorCondition getCondition()
-    {
+    ErrorCondition getCondition() {
         return _localError;
     }
 
-    
-    public void setCondition(ErrorCondition condition)
-    {
-        if(condition !is null)
-        {
+    void setCondition(ErrorCondition condition) {
+        if (condition !is null) {
             _localError.copyFrom(condition);
-        }
-        else
-        {
+        } else {
             _localError.clear();
         }
     }
 
-    
-    public ErrorCondition getRemoteCondition()
-    {
+    ErrorCondition getRemoteCondition() {
         return _remoteError;
     }
 
-    void setLocalState(EndpointState localState)
-    {
+    void setLocalState(EndpointState localState) {
         _localState = localState;
     }
 
-    void setRemoteState(EndpointState remoteState)
-    {
+    void setRemoteState(EndpointState remoteState) {
         // TODO - check state change legal
         _remoteState = remoteState;
     }
 
-    void modified()
-    {
+    void modified() {
         modified(true);
     }
 
-    void modified(bool emit)
-    {
-        if(!_modified)
-        {
+    void modified(bool emit) {
+        if (!_modified) {
             _modified = true;
             getConnectionImpl().addModified(this);
         }
@@ -156,67 +136,53 @@ class EndpointImpl : ProtonJEndpoint
 
     protected abstract ConnectionImpl getConnectionImpl();
 
-    void clearModified()
-    {
-        if(_modified)
-        {
+    void clearModified() {
+        if (_modified) {
             _modified = false;
             getConnectionImpl().removeModified(this);
         }
     }
 
-    bool isModified()
-    {
+    bool isModified() {
         return _modified;
     }
 
-    EndpointImpl transportNext()
-    {
+    EndpointImpl transportNext() {
         return _transportNext;
     }
 
-    EndpointImpl transportPrev()
-    {
+    EndpointImpl transportPrev() {
         return _transportPrev;
     }
 
     abstract void doFree();
 
-    
-    public void free()
-    {
-        if (freed) return;
+    void free() {
+        if (freed)
+            return;
         freed = true;
 
         doFree();
         decref();
     }
 
-    void setTransportNext(EndpointImpl transportNext)
-    {
+    void setTransportNext(EndpointImpl transportNext) {
         _transportNext = transportNext;
     }
 
-    void setTransportPrev(EndpointImpl transportPrevious)
-    {
+    void setTransportPrev(EndpointImpl transportPrevious) {
         _transportPrev = transportPrevious;
     }
 
-    
-    public Object getContext()
-    {
+    Object getContext() {
         return _context;
     }
 
-    
-    public void setContext(Object context)
-    {
+    void setContext(Object context) {
         _context = context;
     }
 
-    
-    public Record attachments()
-    {
+    Record attachments() {
         return _attachments;
     }
 

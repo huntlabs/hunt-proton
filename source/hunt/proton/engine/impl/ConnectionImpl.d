@@ -37,22 +37,24 @@ import hunt.collection.Iterator;
 import hunt.proton.engine.impl.EventImpl;
 import hunt.proton.engine.ReactorChild;
 import hunt.logging;
-class ConnectionImpl : EndpointImpl , ProtonJConnection
-{
-    public static int MAX_CHANNELS = 65535;
 
-    private List!SessionImpl _sessions ;// = new ArrayList<SessionImpl>();
+
+/**
+ * 
+ */
+class ConnectionImpl : EndpointImpl, ProtonJConnection {
+    static int MAX_CHANNELS = 65535;
+
+    private List!SessionImpl _sessions; // = new ArrayList<SessionImpl>();
     private EndpointImpl _transportTail;
     private EndpointImpl _transportHead;
-    private int _maxChannels ;//= MAX_CHANNELS;
+    private int _maxChannels; //= MAX_CHANNELS;
 
     private LinkNode!SessionImpl _sessionHead;
     private LinkNode!SessionImpl _sessionTail;
 
-
     private LinkNode!(LinkImpl) _linkHead;
     private LinkNode!(LinkImpl) _linkTail;
-
 
     private DeliveryImpl _workHead;
     private DeliveryImpl _workTail;
@@ -76,159 +78,119 @@ class ConnectionImpl : EndpointImpl , ProtonJConnection
     private CollectorImpl _collector;
     private Reactor _reactor;
 
-    private static Symbol[] EMPTY_SYMBOL_ARRAY ;
+    private static Symbol[] EMPTY_SYMBOL_ARRAY;
 
-
-     //static Symbol[]  EMPTY_SYMBOL_ARRAY () {
-     //    __gshared Symbol[]  inst;
-     //    return initOnce!inst(new TransportResultImpl(OK, null, null));
-     //}
+    //static Symbol[]  EMPTY_SYMBOL_ARRAY () {
+    //    __gshared Symbol[]  inst;
+    //    return initOnce!inst(new TransportResultImpl(OK, null, null));
+    //}
     /**
      * Application code should use {@link hunt.proton.engine.Connection.Factory#create()} instead.
      */
-    this()
-    {
+    this() {
         _maxChannels = MAX_CHANNELS;
         _sessions = new ArrayList!SessionImpl();
     }
 
-    override
-    public SessionImpl session()
-    {
+    override SessionImpl session() {
         SessionImpl session = new SessionImpl(this);
         _sessions.add(session);
-
 
         return session;
     }
 
-    override
-     void free()
-     {
-         super.free();
-     }
+    override void free() {
+        super.free();
+    }
 
-    override
-    int opCmp(ReactorChild o)
-    {
-        ConnectionImpl other = cast(ConnectionImpl)o;
+    override int opCmp(ReactorChild o) {
+        ConnectionImpl other = cast(ConnectionImpl) o;
         return cast(int)(this._localContainerId.hashOf - other._localContainerId.hashOf);
     }
 
-
-    void freeSession(SessionImpl session)
-    {
+    void freeSession(SessionImpl session) {
         _sessions.remove(session);
     }
 
-    public LinkNode!SessionImpl addSessionEndpoint(SessionImpl endpoint)
-    {
+    LinkNode!SessionImpl addSessionEndpoint(SessionImpl endpoint) {
         LinkNode!SessionImpl node;
-        if(_sessionHead is null)
-        {
-            node = _sessionHead = _sessionTail = LinkNode!SessionImpl.newList!SessionImpl(endpoint);
-        }
-        else
-        {
+        if (_sessionHead is null) {
+            node = _sessionHead = _sessionTail = LinkNode!SessionImpl.newList!SessionImpl(
+                    endpoint);
+        } else {
             node = _sessionTail = _sessionTail.addAtTail(endpoint);
         }
         return node;
     }
 
-    void removeSessionEndpoint(LinkNode!SessionImpl node)
-    {
+    void removeSessionEndpoint(LinkNode!SessionImpl node) {
         LinkNode!SessionImpl prev = node.getPrev();
         LinkNode!SessionImpl next = node.getNext();
 
-        if(_sessionHead == node)
-        {
+        if (_sessionHead == node) {
             _sessionHead = next;
         }
-        if(_sessionTail == node)
-        {
+        if (_sessionTail == node) {
             _sessionTail = prev;
         }
         node.remove();
     }
 
-
-    public LinkNode!LinkImpl addLinkEndpoint(LinkImpl endpoint)
-    {
+    LinkNode!LinkImpl addLinkEndpoint(LinkImpl endpoint) {
         LinkNode!LinkImpl node;
-        if(_linkHead is null)
-        {
+        if (_linkHead is null) {
             node = _linkHead = _linkTail = LinkNode!LinkImpl.newList!LinkImpl(endpoint);
-        }
-        else
-        {
+        } else {
             node = _linkTail = _linkTail.addAtTail(endpoint);
         }
         return node;
     }
 
-
-    void removeLinkEndpoint(LinkNode!LinkImpl node)
-    {
+    void removeLinkEndpoint(LinkNode!LinkImpl node) {
         LinkNode!LinkImpl prev = node.getPrev();
         LinkNode!LinkImpl next = node.getNext();
 
-        if(_linkHead == node)
-        {
+        if (_linkHead == node) {
             _linkHead = next;
         }
-        if(_linkTail == node)
-        {
+        if (_linkTail == node) {
             _linkTail = prev;
         }
         node.remove();
     }
 
-
-    override
-    public Session sessionHead(Set!EndpointState local, Set!EndpointState remote)
-    {
-        if(_sessionHead is null)
-        {
+    override Session sessionHead(Set!EndpointState local, Set!EndpointState remote) {
+        if (_sessionHead is null) {
             return null;
-        }
-        else
-        {
+        } else {
             Query!SessionImpl query = new EndpointImplQuery!SessionImpl(local, remote);
-            LinkNode!SessionImpl node = query.matches(_sessionHead) ? _sessionHead : _sessionHead.next(query);
+            LinkNode!SessionImpl node = query.matches(_sessionHead)
+                ? _sessionHead : _sessionHead.next(query);
             return node is null ? null : node.getValue();
         }
     }
 
-    override
-    public Link linkHead(Set!EndpointState local, Set!EndpointState remote)
-    {
-        if(_linkHead is null)
-        {
+    override Link linkHead(Set!EndpointState local, Set!EndpointState remote) {
+        if (_linkHead is null) {
             return null;
-        }
-        else
-        {
+        } else {
             Query!LinkImpl query = new EndpointImplQuery!LinkImpl(local, remote);
             LinkNode!LinkImpl node = query.matches(_linkHead) ? _linkHead : _linkHead.next(query);
             return node is null ? null : node.getValue();
         }
     }
 
-    override
-    protected ConnectionImpl getConnectionImpl()
-    {
+    override protected ConnectionImpl getConnectionImpl() {
         return this;
     }
 
-    override
-    void postFinal() {
+    override void postFinal() {
         put(Type.CONNECTION_FINAL, this);
     }
 
-    override
-    void doFree() {
+    override void doFree() {
         List!SessionImpl sessions = new ArrayList!SessionImpl(_sessions);
-        foreach(SessionImpl session ; sessions) {
+        foreach (SessionImpl session; sessions) {
             session.free();
         }
         _sessions = null;
@@ -245,45 +207,35 @@ class ConnectionImpl : EndpointImpl , ProtonJConnection
         }
     }
 
-    void handleOpen(Open open)
-    {
+    void handleOpen(Open open) {
         // TODO - store state
         setRemoteState(EndpointState.ACTIVE);
         setRemoteHostname(open.getHostname() is null ? null : open.getHostname().value);
         setRemoteContainer(open.getContainerId() is null ? null : open.getContainerId().value);
-        if (open.getDesiredCapabilities() !is null)
-        {
+        if (open.getDesiredCapabilities() !is null) {
             setRemoteDesiredCapabilities(open.getDesiredCapabilities().toArray);
         }
-        if (open.getOfferedCapabilities() !is null)
-        {
+        if (open.getOfferedCapabilities() !is null) {
             setRemoteOfferedCapabilities(open.getOfferedCapabilities().toArray);
         }
         setRemoteProperties(open.getProperties());
         put(Type.CONNECTION_REMOTE_OPEN, this);
     }
 
-
-    EndpointImpl getTransportHead()
-    {
+    EndpointImpl getTransportHead() {
         return _transportHead;
     }
 
-    EndpointImpl getTransportTail()
-    {
+    EndpointImpl getTransportTail() {
         return _transportTail;
     }
 
-    void addModified(EndpointImpl endpoint)
-    {
-        if(_transportTail is null)
-        {
+    void addModified(EndpointImpl endpoint) {
+        if (_transportTail is null) {
             endpoint.setTransportNext(null);
             endpoint.setTransportPrev(null);
             _transportHead = _transportTail = endpoint;
-        }
-        else
-        {
+        } else {
             _transportTail.setTransportNext(endpoint);
             endpoint.setTransportPrev(_transportTail);
             _transportTail = endpoint;
@@ -291,172 +243,123 @@ class ConnectionImpl : EndpointImpl , ProtonJConnection
         }
     }
 
-    void removeModified(EndpointImpl endpoint)
-    {
-        if(_transportHead == endpoint)
-        {
+    void removeModified(EndpointImpl endpoint) {
+        if (_transportHead == endpoint) {
             _transportHead = endpoint.transportNext();
-        }
-        else
-        {
+        } else {
             endpoint.transportPrev().setTransportNext(endpoint.transportNext());
         }
 
-        if(_transportTail == endpoint)
-        {
+        if (_transportTail == endpoint) {
             _transportTail = endpoint.transportPrev();
-        }
-        else
-        {
+        } else {
             endpoint.transportNext().setTransportPrev(endpoint.transportPrev());
         }
     }
 
-    override
-    public int getMaxChannels()
-    {
+    override int getMaxChannels() {
         return _maxChannels;
     }
 
-    public string getLocalContainerId()
-    {
+    string getLocalContainerId() {
         return _localContainerId;
     }
 
-    override
-    public void setLocalContainerId(string localContainerId)
-    {
+    override void setLocalContainerId(string localContainerId) {
         _localContainerId = localContainerId;
     }
 
-    override
-    public DeliveryImpl getWorkHead()
-    {
+    override DeliveryImpl getWorkHead() {
         return _workHead;
     }
 
-    override
-    public void setContainer(string container)
-    {
+    override void setContainer(string container) {
         _localContainerId = container;
     }
 
-    override
-    public string getContainer()
-    {
+    override string getContainer() {
         return _localContainerId;
     }
 
-    override
-    public void setHostname(string hostname)
-    {
+    override void setHostname(string hostname) {
         _localHostname = hostname;
     }
 
-    override
-    public string getRemoteContainer()
-    {
+    override string getRemoteContainer() {
         return _remoteContainer;
     }
 
-    override
-    public string getRemoteHostname()
-    {
+    override string getRemoteHostname() {
         return _remoteHostname;
     }
 
-    override
-    public void setOfferedCapabilities(Symbol[] capabilities)
-    {
+    override void setOfferedCapabilities(Symbol[] capabilities) {
         _offeredCapabilities = capabilities;
     }
 
-    override
-    public void setDesiredCapabilities(Symbol[] capabilities)
-    {
+    override void setDesiredCapabilities(Symbol[] capabilities) {
         _desiredCapabilities = capabilities;
     }
 
-    override
-    public Symbol[] getRemoteOfferedCapabilities()
-    {
+    override Symbol[] getRemoteOfferedCapabilities() {
         return _remoteOfferedCapabilities is null ? EMPTY_SYMBOL_ARRAY : _remoteOfferedCapabilities;
     }
 
-    override
-    public Symbol[] getRemoteDesiredCapabilities()
-    {
+    override Symbol[] getRemoteDesiredCapabilities() {
         return _remoteDesiredCapabilities is null ? EMPTY_SYMBOL_ARRAY : _remoteDesiredCapabilities;
     }
 
-
-    Symbol[] getOfferedCapabilities()
-    {
+    Symbol[] getOfferedCapabilities() {
         return _offeredCapabilities;
     }
 
-    Symbol[] getDesiredCapabilities()
-    {
+    Symbol[] getDesiredCapabilities() {
         return _desiredCapabilities;
     }
 
-    void setRemoteOfferedCapabilities(Symbol[] remoteOfferedCapabilities)
-    {
+    void setRemoteOfferedCapabilities(Symbol[] remoteOfferedCapabilities) {
         _remoteOfferedCapabilities = remoteOfferedCapabilities;
     }
 
-    void setRemoteDesiredCapabilities(Symbol[] remoteDesiredCapabilities)
-    {
+    void setRemoteDesiredCapabilities(Symbol[] remoteDesiredCapabilities) {
         _remoteDesiredCapabilities = remoteDesiredCapabilities;
     }
 
-
-    Map!(Symbol, Object) getProperties()
-    {
+    Map!(Symbol, Object) getProperties() {
         return _properties;
     }
 
-    override
-    public void setProperties(Map!(Symbol, Object) properties)
-    {
+    override void setProperties(Map!(Symbol, Object) properties) {
         _properties = properties;
     }
 
-    override
-    public Map!(Symbol, Object) getRemoteProperties()
-    {
+    override Map!(Symbol, Object) getRemoteProperties() {
         return _remoteProperties;
     }
 
-    void setRemoteProperties(Map!(Symbol, Object) remoteProperties)
-    {
+    void setRemoteProperties(Map!(Symbol, Object) remoteProperties) {
         _remoteProperties = remoteProperties;
     }
 
-    override
-    public string getHostname()
-    {
+    override string getHostname() {
         return _localHostname;
     }
 
-    void setRemoteContainer(string remoteContainerId)
-    {
+    void setRemoteContainer(string remoteContainerId) {
         _remoteContainer = remoteContainerId;
     }
 
-    void setRemoteHostname(string remoteHostname)
-    {
+    void setRemoteHostname(string remoteHostname) {
         _remoteHostname = remoteHostname;
     }
 
-    DeliveryImpl getWorkTail()
-    {
+    DeliveryImpl getWorkTail() {
         return _workTail;
     }
 
-    void removeWork(DeliveryImpl delivery)
-    {
-        if (!delivery._work) return;
+    void removeWork(DeliveryImpl delivery) {
+        if (!delivery._work)
+            return;
 
         DeliveryImpl next = delivery.getWorkNext();
         DeliveryImpl prev = delivery.getWorkPrev();
@@ -472,23 +375,21 @@ class ConnectionImpl : EndpointImpl , ProtonJConnection
         delivery.setWorkNext(null);
         delivery.setWorkPrev(null);
 
-        if(_workHead == delivery)
-        {
+        if (_workHead == delivery) {
             _workHead = next;
 
         }
 
-        if(_workTail == delivery)
-        {
+        if (_workTail == delivery) {
             _workTail = prev;
         }
 
         delivery._work = false;
     }
 
-    void addWork(DeliveryImpl delivery)
-    {
-        if (delivery._work) return;
+    void addWork(DeliveryImpl delivery) {
+        if (delivery._work)
+            return;
 
         delivery.setWorkNext(null);
         delivery.setWorkPrev(_workTail);
@@ -506,56 +407,46 @@ class ConnectionImpl : EndpointImpl , ProtonJConnection
         delivery._work = true;
     }
 
-    public Iterator!DeliveryImpl getWorkSequence()
-    {
+    Iterator!DeliveryImpl getWorkSequence() {
         return new WorkSequence(_workHead);
     }
 
-    void setTransport(TransportImpl transport)
-    {
+    void setTransport(TransportImpl transport) {
         _transport = transport;
     }
 
-    override
-    public TransportImpl getTransport()
-    {
+    override TransportImpl getTransport() {
         return _transport;
     }
 
-    class WorkSequence : Iterator!DeliveryImpl
-    {
+    class WorkSequence : Iterator!DeliveryImpl {
         private DeliveryImpl _next;
 
-        this(DeliveryImpl workHead)
-        {
+        this(DeliveryImpl workHead) {
             _next = workHead;
         }
 
-        public bool hasNext()
-        {
+        bool hasNext() {
             return _next !is null;
         }
 
         //override
-        //public void remove()
+        //void remove()
         //{
         //    import
         //   // throw new UnsupportedOperationException();
         //}
 
-        public DeliveryImpl next()
-        {
+        DeliveryImpl next() {
             DeliveryImpl next = _next;
-            if(next !is null)
-            {
+            if (next !is null) {
                 _next = next.getWorkNext();
             }
             return next;
         }
     }
 
-    DeliveryImpl getTransportWorkHead()
-    {
+    DeliveryImpl getTransportWorkHead() {
         return _transportWorkHead;
     }
 
@@ -563,9 +454,9 @@ class ConnectionImpl : EndpointImpl , ProtonJConnection
         return _transportWorkSize;
     }
 
-    public void removeTransportWork(DeliveryImpl delivery)
-    {
-        if (!delivery._transportWork) return;
+    void removeTransportWork(DeliveryImpl delivery) {
+        if (!delivery._transportWork)
+            return;
 
         DeliveryImpl next = delivery.getTransportWorkNext();
         DeliveryImpl prev = delivery.getTransportWorkPrev();
@@ -581,14 +472,12 @@ class ConnectionImpl : EndpointImpl , ProtonJConnection
         delivery.setTransportWorkNext(null);
         delivery.setTransportWorkPrev(null);
 
-        if(_transportWorkHead == delivery)
-        {
+        if (_transportWorkHead == delivery) {
             _transportWorkHead = next;
 
         }
 
-        if(_transportWorkTail == delivery)
-        {
+        if (_transportWorkTail == delivery) {
             _transportWorkTail = prev;
         }
 
@@ -596,10 +485,10 @@ class ConnectionImpl : EndpointImpl , ProtonJConnection
         _transportWorkSize--;
     }
 
-    void addTransportWork(DeliveryImpl delivery)
-    {
+    void addTransportWork(DeliveryImpl delivery) {
         modified();
-        if (delivery._transportWork) return;
+        if (delivery._transportWork)
+            return;
 
         delivery.setTransportWorkNext(null);
         delivery.setTransportWorkPrev(_transportWorkTail);
@@ -618,39 +507,26 @@ class ConnectionImpl : EndpointImpl , ProtonJConnection
         _transportWorkSize++;
     }
 
-    void workUpdate(DeliveryImpl delivery)
-    {
-        if(delivery !is null)
-        {
-            if(!delivery.isSettled() &&
-               (delivery.isReadable() ||
-                delivery.isWritable() ||
-                delivery.isUpdated()))
-            {
+    void workUpdate(DeliveryImpl delivery) {
+        if (delivery !is null) {
+            if (!delivery.isSettled() && (delivery.isReadable()
+                    || delivery.isWritable() || delivery.isUpdated())) {
                 addWork(delivery);
-            }
-            else
-            {
+            } else {
                 removeWork(delivery);
             }
         }
     }
 
-    override
-    public Object getContext()
-    {
+    override Object getContext() {
         return _context;
     }
 
-    override
-    public void setContext(Object context)
-    {
+    override void setContext(Object context) {
         _context = context;
     }
 
-    override
-    public void collect(Collector collector)
-    {
+    override void collect(Collector collector) {
         _collector = cast(CollectorImpl) collector;
 
         put(Type.CONNECTION_INIT, this);
@@ -668,35 +544,29 @@ class ConnectionImpl : EndpointImpl , ProtonJConnection
         }
     }
 
-    EventImpl put(Type type, Object context)
-    {
+    EventImpl put(Type type, Object context) {
         //logInfo("EventImpl put ############################### %d ", type.ordinal);
         if (_collector !is null) {
-           // logInfo("EventImpl put in ###############################");
+            // logInfo("EventImpl put in ###############################");
             return _collector.put(type, context);
         } else {
             return null;
         }
     }
 
-    override
-    void localOpen()
-    {
+    override void localOpen() {
         put(Type.CONNECTION_LOCAL_OPEN, this);
     }
 
-    override
-    void localClose()
-    {
+    override void localClose() {
         put(Type.CONNECTION_LOCAL_CLOSE, this);
     }
 
-    override
-    public Reactor getReactor() {
+    override Reactor getReactor() {
         return _reactor;
     }
 
-    public void setReactor(Reactor reactor) {
+    void setReactor(Reactor reactor) {
         _reactor = reactor;
     }
 }

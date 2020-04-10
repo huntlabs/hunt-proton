@@ -39,7 +39,7 @@ class DetachWrapper : AbstractList!Object
     }
 
     override
-    public Object get(int index)
+    Object get(int index)
     {
 
         switch(index)
@@ -59,7 +59,7 @@ class DetachWrapper : AbstractList!Object
     }
 
     override
-    public int size()
+    int size()
     {
         return _detach.getError() !is null
         ? 3
@@ -109,9 +109,21 @@ class DetachType : AbstractDescribedType!(Detach,List!Object) , DescribedTypeCon
 
 
 
-    public Detach newInstance(Object described)
+    Detach newInstance(Object described)
     {
         List!Object l = cast(List!Object) described;
+        
+        version(HUNT_AMQP_DEBUG) {
+            size_t index = 0;
+            foreach (Object obj; l) {
+                if(obj is null) {
+                    tracef("Object[%d] is null", index);
+                } else {
+                    tracef("Object[%d]: %s ,%s", index, typeid(obj), obj.toString());
+                }
+                index++;
+            }
+        }
 
         Detach o = new Detach();
 
@@ -129,7 +141,8 @@ class DetachType : AbstractDescribedType!(Detach,List!Object) , DescribedTypeCon
                 goto case;
             case 1:
                 Boolean closed = cast(Boolean) l.get(1);
-                o.setClosed(closed is null ? null : closed);
+                o.setClosed(closed is null ? Boolean.FALSE : closed);
+                // o.setClosed(Boolean.TRUE);
                 goto case;
             case 2:
                 o.setHandle( cast(UnsignedInteger) l.get( 0 ) );
@@ -142,13 +155,13 @@ class DetachType : AbstractDescribedType!(Detach,List!Object) , DescribedTypeCon
         return o;
     }
 
-    public TypeInfo getTypeClass()
+    TypeInfo getTypeClass()
     {
         return typeid(Detach);
     }
 
 
-    public static void register(Decoder decoder, EncoderImpl encoder)
+    static void register(Decoder decoder, EncoderImpl encoder)
     {
         DetachType type = new DetachType(encoder);
         foreach(Object descriptor ; DESCRIPTORS)

@@ -826,7 +826,7 @@ class SaslImpl : Sasl, SaslFrameBodyHandler!Void, SaslFrameHandler, TransportLay
         {
           version(HUNT_AMQP_DEBUG)
           {
-            logInfof("isOutputInSaslMode : %d  -----------pos: %d",isOutputInSaslMode(),_outputBuffer.position());
+            // logInfof("isOutputInSaslMode : %d  -----------pos: %d",isOutputInSaslMode(),_outputBuffer.position());
           }
             if (isOutputInSaslMode() || _outputBuffer.position() != 0)
             {

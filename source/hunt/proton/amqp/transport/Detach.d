@@ -9,7 +9,6 @@
  *
  */
 
-
 module hunt.proton.amqp.transport.Detach;
 
 import hunt.proton.amqp.Binary;
@@ -19,8 +18,7 @@ import hunt.proton.amqp.transport.ErrorCondition;
 import hunt.logging;
 import hunt.Boolean;
 
-class Detach : FrameBody
-{
+class Detach : FrameBody {
     private UnsignedInteger _handle;
     private Boolean _closed;
     private ErrorCondition _error;
@@ -29,61 +27,49 @@ class Detach : FrameBody
         _closed = new Boolean(false);
     }
 
-    this(Detach other)
-    {
+    this(Detach other) {
         this._handle = other.getHandle();
         this._closed = other.getClosed();
-        if (other._error !is null)
-        {
+        if (other._error !is null) {
             this._error = new ErrorCondition();
             this._error.copyFrom(other.getError());
         }
     }
 
-    public UnsignedInteger getHandle()
-    {
+    UnsignedInteger getHandle() {
         return _handle;
     }
 
-    public void setHandle(UnsignedInteger handle)
-    {
-        if( handle is null )
-        {
+    void setHandle(UnsignedInteger handle) {
+        if (handle is null) {
             logError("the handle field is mandatory");
         }
 
         _handle = handle;
     }
 
-    public Boolean getClosed()
-    {
+    Boolean getClosed() {
         return _closed;
     }
 
-    public void setClosed(Boolean closed)
-    {
+    void setClosed(Boolean closed) {
         _closed = closed;
     }
 
-    public ErrorCondition getError()
-    {
+    ErrorCondition getError() {
         return _error;
     }
 
-    public void setError(ErrorCondition error)
-    {
+    void setError(ErrorCondition error) {
         _error = error;
     }
 
     //override
-    public void invoke(E)(FrameBodyHandler!E handler, Binary payload, E context)
-    {
+    void invoke(E)(FrameBodyHandler!E handler, Binary payload, E context) {
         handler.handleDetach(this, payload, context);
     }
 
-
-    public FrameBody copy()
-    {
+    FrameBody copy() {
         return new Detach(this);
     }
 }
