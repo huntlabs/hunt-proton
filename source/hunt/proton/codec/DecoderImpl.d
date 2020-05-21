@@ -11,7 +11,7 @@
 
 module hunt.proton.codec.DecoderImpl;
 
-import hunt.collection.ByteBuffer;
+import hunt.io.ByteBuffer;
 import hunt.collection.Collection;
 import hunt.collection.Collections;
 import hunt.time.LocalDateTime;

@@ -13,7 +13,7 @@ module hunt.proton.engine.impl.SaslImpl;
 import hunt.String;
 import hunt.Exceptions;
 import  hunt.proton.engine.impl.ByteBufferUtils;
-import hunt.collection.ByteBuffer;
+import hunt.io.ByteBuffer;
 import hunt.proton.amqp.Binary;
 import hunt.proton.amqp.Symbol;
 import hunt.proton.amqp.security.SaslChallenge;

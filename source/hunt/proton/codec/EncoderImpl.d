@@ -13,7 +13,7 @@ module hunt.proton.codec.EncoderImpl;
 
 import hunt.proton.codec.AMQPType;
 import hunt.proton.codec.DecoderImpl;
-import hunt.collection.ByteBuffer;
+import hunt.io.ByteBuffer;
 import hunt.time.LocalDateTime;
 import hunt.collection.List;
 import hunt.collection.Map;

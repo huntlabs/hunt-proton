@@ -12,7 +12,7 @@
 module hunt.proton.codec.impl.Decimal128Element;
 
 /*
-import hunt.collection.ByteBuffer;
+import hunt.io.ByteBuffer;
 
 import hunt.proton.amqp.Decimal128;
 import hunt.proton.codec.Data;

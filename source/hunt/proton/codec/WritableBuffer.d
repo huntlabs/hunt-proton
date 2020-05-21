@@ -13,8 +13,8 @@ module hunt.proton.codec.WritableBuffer;
 
 import hunt.proton.codec.ReadableBuffer;
 import hunt.Exceptions;
-import hunt.collection.ByteBuffer;
-import hunt.collection.BufferUtils;
+import hunt.io.ByteBuffer;
+import hunt.io.BufferUtils;
 import std.stdio;
 
 abstract class WritableBuffer {

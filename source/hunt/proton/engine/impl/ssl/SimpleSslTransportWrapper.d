@@ -14,7 +14,7 @@ module hunt.proton.engine.impl.ssl.SimpleSslTransportWrapper;
 
 //import static hunt.proton.engine.impl.ByteBufferUtils.newWriteableBuffer;
 //
-//import hunt.collection.ByteBuffer;
+//import hunt.io.ByteBuffer;
 //import java.util.logging.Level;
 //import java.util.logging.Logger;
 //

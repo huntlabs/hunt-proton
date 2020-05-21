@@ -15,7 +15,7 @@ import hunt.logging;
 import std.conv:to;
 import hunt.proton.engine.impl.ByteBufferUtils;
 import hunt.Boolean;
-import hunt.collection.ByteBuffer;
+import hunt.io.ByteBuffer;
 import hunt.collection.ArrayList;
 import hunt.collection.HashMap;
 import hunt.collection.List;
@@ -103,7 +103,9 @@ import hunt.proton.amqp.transport.End;
 import hunt.proton.amqp.transport.Transfer;
 import hunt.proton.amqp.transport.EmptyFrame;
 import hunt.proton.amqp.transport.Disposition;
+
 import hunt.Exceptions;
+import hunt.util.Runnable;
 
 class TransportImpl : EndpointImpl, ProtonJTransport, FrameBodyHandler!int,
         FrameHandler, TransportOutputWriter, TransportInternal

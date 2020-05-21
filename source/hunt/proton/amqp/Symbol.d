@@ -12,7 +12,7 @@
 module hunt.proton.amqp.Symbol;
 
 import std.algorithm.comparison;
-import hunt.collection.ByteBuffer;
+import hunt.io.ByteBuffer;
 import hunt.collection.HashMap;
 import hunt.proton.codec.WritableBuffer;
 import hunt.collection.Map;

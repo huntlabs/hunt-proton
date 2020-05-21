@@ -16,7 +16,7 @@ import hunt.proton.engine.impl.TransportWrapper;
 import hunt.proton.engine.impl.ssl.SslTransportWrapper;
 import std.conv:to;
 import hunt.Exceptions;
-import hunt.collection.ByteBuffer;
+import hunt.io.ByteBuffer;
 /**
  * SslHandshakeSniffingTransportWrapper
  *

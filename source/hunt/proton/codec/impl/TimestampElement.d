@@ -12,7 +12,7 @@
 module hunt.proton.codec.impl.TimestampElement;
 
 import std.datetime.date;
-import hunt.collection.ByteBuffer;
+import hunt.io.ByteBuffer;
 import std.conv;
 import hunt.proton.codec.impl.AtomicElement;
 import hunt.proton.codec.impl.Element;

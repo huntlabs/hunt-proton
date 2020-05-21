@@ -13,8 +13,8 @@ module hunt.proton.amqp.Decimal128;
 
 import hunt.math;
 import hunt.Number;
-import hunt.collection.ByteBuffer;
-import hunt.collection.BufferUtils;
+import hunt.io.ByteBuffer;
+import hunt.io.BufferUtils;
 
 class Decimal128 : Number
 {

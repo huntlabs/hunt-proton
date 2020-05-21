@@ -4,8 +4,8 @@ import std.stdio;
 import hunt.proton.codec.DecoderImpl;
 import hunt.proton.codec.EncoderImpl;
 import hunt.proton.codec.AMQPDefinedTypes;
-import hunt.collection.ByteBuffer;
-import hunt.collection.BufferUtils;
+import hunt.io.ByteBuffer;
+import hunt.io.BufferUtils;
 
 
 class CodecTestSupport {

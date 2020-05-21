@@ -12,7 +12,7 @@ module hunt.proton.engine.impl.TransportOutputAdaptor;
 
 import hunt.proton.engine.impl.ByteBufferUtils;
 
-import hunt.collection.ByteBuffer;
+import hunt.io.ByteBuffer;
 import hunt.proton.engine.impl.TransportImpl;
 import hunt.proton.engine.Transport;
 import hunt.proton.engine.impl.TransportOutputWriter;

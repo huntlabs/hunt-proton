@@ -14,8 +14,8 @@ module hunt.proton.engine.impl.FrameParser;
 import  hunt.proton.engine.impl.AmqpHeader;
 import  hunt.proton.engine.impl.ByteBufferUtils;
 
-import hunt.collection.ByteBuffer;
-import hunt.collection.BufferUtils;
+import hunt.io.ByteBuffer;
+import hunt.io.BufferUtils;
 import hunt.proton.amqp.Binary;
 import hunt.proton.amqp.transport.EmptyFrame;
 import hunt.proton.amqp.transport.FrameBody;

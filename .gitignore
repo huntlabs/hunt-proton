@@ -1,19 +1,38 @@
-.dub
-docs.json
-__dummy.html
-docs/
-/hunt-proton
-hunt-proton.so
-hunt-proton.dylib
-hunt-proton.dll
-hunt-proton.a
-hunt-proton.lib
-hunt-proton-test-*
-*.a
-*.lib
-*.exe
+# Visual Studio Code
+#.vscode/
+
+# Compiled Object files
 *.o
 *.obj
+
+# Compiled Dynamic libraries
+*.so
+*.dylib
+*.dll
+
+# Compiled Static libraries
+*.a
+*.lib
+
+# Executables
+*.exe
+*-test-*
+
+# DUB
+.dub
+dub.*.json
+dub.*.sdl
+docs.json
+__dummy.html
+
+# Code coverage
 *.lst
-dub.selections.json
+
+# Idea
 *.iml
+
+# crash file
+core
+
+# others
+*.tar.gz

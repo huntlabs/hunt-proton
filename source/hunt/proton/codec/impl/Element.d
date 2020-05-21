@@ -11,7 +11,7 @@
 
 module hunt.proton.codec.impl.Element;
 
-import hunt.collection.ByteBuffer;
+import hunt.io.ByteBuffer;
 import hunt.proton.codec.Data;
 
 interface IElement

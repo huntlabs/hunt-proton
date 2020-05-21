@@ -11,7 +11,7 @@
 
 module hunt.proton.engine.Transport;
 
-import hunt.collection.ByteBuffer;
+import hunt.io.ByteBuffer;
 
 import hunt.proton.amqp.transport.ErrorCondition;
 import hunt.proton.engine.impl.TransportImpl;

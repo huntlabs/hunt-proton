@@ -11,7 +11,7 @@
 
 module hunt.proton.codec.DroppingWritableBuffer;
 
-import hunt.collection.ByteBuffer;
+import hunt.io.ByteBuffer;
 import hunt.proton.codec.WritableBuffer;
 import hunt.Integer;
 import hunt.String;

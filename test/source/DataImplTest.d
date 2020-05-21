@@ -10,8 +10,8 @@ import hunt.proton.amqp.Binary;
 import hunt.Assert;
 import hunt.collection.List;
 import hunt.logging;
-import hunt.collection.ByteBuffer;
-import hunt.collection.BufferUtils;
+import hunt.io.ByteBuffer;
+import hunt.io.BufferUtils;
 import hunt.String;
 import hunt.Long;
 

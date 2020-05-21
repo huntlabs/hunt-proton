@@ -11,7 +11,7 @@
 
 module hunt.proton.codec.Data;
 
-import hunt.collection.ByteBuffer;
+import hunt.io.ByteBuffer;
 import hunt.time.LocalDateTime;
 import hunt.collection.List;
 import hunt.collection.Map;

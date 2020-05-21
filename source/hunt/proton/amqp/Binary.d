@@ -11,10 +11,10 @@
 
 module hunt.proton.amqp.Binary;
 
-import hunt.collection.ByteBuffer;
+import hunt.io.ByteBuffer;
 import hunt.collection.Collection;
 import hunt.proton.codec.ReadableBuffer;
-import hunt.collection.BufferUtils;
+import hunt.io.BufferUtils;
 
 class Binary
 {

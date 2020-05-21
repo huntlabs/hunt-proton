@@ -16,7 +16,7 @@ import hunt.proton.codec.impl.Element;
 import hunt.proton.codec.impl.ArrayElement;
 import hunt.proton.codec.Data;
 import hunt.collection.Map;
-import hunt.collection.ByteBuffer;
+import hunt.io.ByteBuffer;
 import std.conv;
 import hunt.collection.HashMap;
 

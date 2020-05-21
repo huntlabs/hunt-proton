@@ -11,7 +11,7 @@
 
 module hunt.proton.engine.impl.TransportOutput;
 
-import hunt.collection.ByteBuffer;
+import hunt.io.ByteBuffer;
 
 import hunt.proton.engine.Transport;
 

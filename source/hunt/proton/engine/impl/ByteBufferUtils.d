@@ -11,8 +11,8 @@
 
 module hunt.proton.engine.impl.ByteBufferUtils;
 
-import hunt.collection.ByteBuffer;
-import hunt.collection.BufferUtils;
+import hunt.io.ByteBuffer;
+import hunt.io.BufferUtils;
 import hunt.proton.engine.Transport;
 import hunt.proton.engine.TransportException;
 import std.algorithm;

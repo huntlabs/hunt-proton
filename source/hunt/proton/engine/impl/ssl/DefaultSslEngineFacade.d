@@ -10,7 +10,7 @@
  */
 module hunt.proton.engine.impl.ssl.DefaultSslEngineFacade;
 
-//import hunt.collection.ByteBuffer;
+//import hunt.io.ByteBuffer;
 //
 //import javax.net.ssl.SSLEngine;
 //import javax.net.ssl.SSLEngineResult;

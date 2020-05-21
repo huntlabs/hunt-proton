@@ -35,8 +35,8 @@ import hunt.Long;
 import hunt.Exceptions;
 import hunt.proton.codec.Data;
 import hunt.proton.codec.impl.DataImpl;
-import hunt.collection.ByteBuffer;
-import hunt.collection.BufferUtils;
+import hunt.io.ByteBuffer;
+import hunt.io.BufferUtils;
 import hunt.collection.List;
 import hunt.collection.ArrayList;
 

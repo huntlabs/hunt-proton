@@ -10,7 +10,7 @@
  */
 module hunt.proton.engine.impl.FrameWriterBuffer;
 
-import hunt.collection.ByteBuffer;
+import hunt.io.ByteBuffer;
 import std.algorithm;
 import hunt.proton.codec.ReadableBuffer;
 import hunt.proton.codec.WritableBuffer;

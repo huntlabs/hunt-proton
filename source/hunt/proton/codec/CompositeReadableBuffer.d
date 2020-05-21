@@ -11,7 +11,7 @@
 
 module hunt.proton.codec.CompositeReadableBuffer;
 
-import hunt.collection.ByteBuffer;
+import hunt.io.ByteBuffer;
 //import java.nio.CharBuffer;
 //import java.nio.InvalidMarkException;
 //import java.nio.charset.CharacterCodingException;
@@ -24,7 +24,7 @@ import hunt.collection.List;
 import hunt.Exceptions;
 import hunt.proton.codec.ReadableBuffer;
 import hunt.proton.codec.WritableBuffer;
-import hunt.collection.BufferUtils;
+import hunt.io.BufferUtils;
 import std.algorithm;
 import std.math;
 

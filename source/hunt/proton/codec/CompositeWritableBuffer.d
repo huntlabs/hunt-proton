@@ -10,10 +10,10 @@
  */
 module hunt.proton.codec.CompositeWritableBuffer;
 
-import hunt.collection.ByteBuffer;
+import hunt.io.ByteBuffer;
 
 import hunt.proton.codec.ReadableBuffer;
-import hunt.collection.BufferUtils;
+import hunt.io.BufferUtils;
 import hunt.proton.codec.WritableBuffer;
 import hunt.Float;
 import hunt.Double;

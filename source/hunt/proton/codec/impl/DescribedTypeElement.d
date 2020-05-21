@@ -17,7 +17,7 @@ import hunt.proton.codec.impl.Element;
 import hunt.proton.codec.impl.ArrayElement;
 import hunt.proton.codec.Data;
 import hunt.collection.Map;
-import hunt.collection.ByteBuffer;
+import hunt.io.ByteBuffer;
 import hunt.proton.amqp.DescribedType;
 import hunt.proton.codec.Data;
 import hunt.Exceptions;

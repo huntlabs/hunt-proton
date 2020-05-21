@@ -11,7 +11,7 @@
 
 module hunt.proton.engine.impl.FrameWriter;
 
-import hunt.collection.ByteBuffer;
+import hunt.io.ByteBuffer;
 
 import hunt.proton.amqp.Binary;
 import hunt.proton.amqp.security.SaslFrameBody;
@@ -30,6 +30,8 @@ import  hunt.proton.amqp.transport.Open;
 import  hunt.proton.amqp.transport.Attach;
 import  hunt.proton.amqp.transport.Transfer;
 import hunt.logging;
+import hunt.util.Runnable;
+
 /**
  * Writes Frames to an internal buffer for later processing by the transport.
  */

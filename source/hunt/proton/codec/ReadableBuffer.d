@@ -13,8 +13,8 @@ module hunt.proton.codec.ReadableBuffer;
 
 import hunt.proton.codec.WritableBuffer;
 import hunt.Exceptions;
-import hunt.collection.BufferUtils;
-import hunt.collection.ByteBuffer;
+import hunt.io.BufferUtils;
+import hunt.io.ByteBuffer;
 import hunt.String;
 /**
  * Interface to abstract a buffer, similar to {@link WritableBuffer}

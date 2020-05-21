@@ -12,7 +12,7 @@
 module hunt.proton.codec.impl.DataDecoder;
 
 
-import hunt.collection.ByteBuffer;
+import hunt.io.ByteBuffer;
 import hunt.proton.codec.Data;
 import hunt.Exceptions;
 import hunt.proton.amqp.UnsignedInteger;

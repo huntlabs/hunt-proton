@@ -12,14 +12,14 @@
 module hunt.proton.codec.impl.DataImpl;
 
 import hunt.Exceptions;
-import hunt.collection.ByteBuffer;
+import hunt.io.ByteBuffer;
 import std.datetime.date;
 import hunt.collection.List;
 import hunt.collection.Map;
 import hunt.proton.codec.impl.Element;
 import hunt.proton.codec.Data;
 import hunt.proton.amqp.Binary;
-import hunt.collection.BufferUtils;
+import hunt.io.BufferUtils;
 import hunt.proton.codec.impl.DataDecoder;
 import hunt.proton.codec.impl.ListElement;
 import hunt.proton.codec.impl.MapElement;

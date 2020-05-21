@@ -74,7 +74,6 @@ class EndpointImpl : ProtonJEndpoint {
     }
 
     void close() {
-        warning(getLocalState());
         if (getLocalState() != EndpointState.CLOSED) {
             _localState = EndpointState.CLOSED;
             localClose();

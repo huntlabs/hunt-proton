@@ -3,7 +3,7 @@ module transport.AttachTest;
 import std.stdio;
 import hunt.proton.amqp.transport.Attach;
 import hunt.Assert ;
-import hunt.collection.BufferUtils;
+import hunt.io.BufferUtils;
 import hunt.proton.amqp.UnsignedInteger;
 import hunt.proton.codec.UnsignedIntegerType;
 import hunt.proton.codec.EncodingCodes;

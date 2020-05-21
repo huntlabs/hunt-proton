@@ -2,7 +2,7 @@ module hunt.proton.message.impl.MessageImpl;
 
 import std.stdio;
 
-import hunt.collection.ByteBuffer;
+import hunt.io.ByteBuffer;
 import hunt.time.LocalDateTime;
 import hunt.proton.amqp.Binary;
 import hunt.proton.amqp.Symbol;
@@ -21,7 +21,7 @@ import hunt.proton.message.Message;
 import hunt.proton.message.ProtonJMessage;
 import hunt.proton.message.MessageError;
 import hunt.proton.codec.AMQPDefinedTypes;
-import hunt.collection.BufferUtils;
+import hunt.io.BufferUtils;
 import hunt.proton.codec.ReadableBuffer;
 import hunt.proton.codec.DroppingWritableBuffer;
 import hunt.proton.codec.WritableBuffer;

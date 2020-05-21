@@ -10,7 +10,7 @@
  */
 module hunt.proton.engine.impl.TransportOutputWriter;
 
-import hunt.collection.ByteBuffer;
+import hunt.io.ByteBuffer;
 
 import hunt.proton.engine.TransportException;
 

@@ -13,7 +13,7 @@ module hunt.proton.engine.impl.SaslFrameParser;
 
 import  hunt.proton.engine.impl.AmqpHeader;
 
-import hunt.collection.ByteBuffer;
+import hunt.io.ByteBuffer;
 
 import hunt.proton.amqp.Binary;
 import hunt.proton.amqp.security.SaslFrameBody;
@@ -25,7 +25,7 @@ import hunt.proton.engine.impl.TransportImpl;
 import hunt.proton.engine.impl.SaslImpl;
 import hunt.proton.codec.DecodeException;
 import hunt.proton.engine.impl.ProtocolTracer;
-import hunt.collection.BufferUtils;
+import hunt.io.BufferUtils;
 import hunt.String;
 import hunt.logging;
 

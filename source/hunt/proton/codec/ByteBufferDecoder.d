@@ -12,7 +12,7 @@
 module hunt.proton.codec.ByteBufferDecoder;
 
 import hunt.proton.codec.Decoder;
-import hunt.collection.ByteBuffer;
+import hunt.io.ByteBuffer;
 
 
 interface ByteBufferDecoder : Decoder

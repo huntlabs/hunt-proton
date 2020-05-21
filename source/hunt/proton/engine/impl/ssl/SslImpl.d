@@ -11,7 +11,7 @@
 
 module hunt.proton.engine.impl.ssl.SslImpl;
 
-import hunt.collection.ByteBuffer;
+import hunt.io.ByteBuffer;
 
 import hunt.proton.engine.impl.ssl.SslHandshakeSniffingTransportWrapper;
 import hunt.proton.engine.Ssl;
