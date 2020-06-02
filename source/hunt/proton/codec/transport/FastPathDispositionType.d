@@ -236,8 +236,7 @@ class FastPathDispositionType : AMQPType!(Disposition), FastPathDescribedTypeCon
                 if (Accepted.getInstance().getType == disposition.getState().getType) {
                     getEncoder().getBuffer().put(ACCEPTED_ENCODED_BYTES, 0, cast(int)ACCEPTED_ENCODED_BYTES.length);
                 } else {
-                  //  getEncoder().writeObject(disposition.getState());
-                    implementationMissing(false);
+                   getEncoder().writeObject(cast(Object)disposition.getState());
                 }
                 break;
             case 5:

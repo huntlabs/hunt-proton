@@ -95,7 +95,7 @@ class FastPathHeaderType : AMQPType!(Header), FastPathDescribedTypeConstructor!(
         for (int index = 0; index < count; ++index) {
             switch (index) {
                 case 0:
-                    header.setDurable(decoder.readBoolean(null).booleanValue);
+                    header.setDurable(decoder.readBoolean(null));
                     break;
                 case 1:
                     header.setPriority(decoder.readUnsignedByte(null));
@@ -104,7 +104,7 @@ class FastPathHeaderType : AMQPType!(Header), FastPathDescribedTypeConstructor!(
                     header.setTtl(decoder.readUnsignedInteger(null));
                     break;
                 case 3:
-                    header.setFirstAcquirer(decoder.readBoolean(null).booleanValue);
+                    header.setFirstAcquirer(decoder.readBoolean(null));
                     break;
                 case 4:
                     header.setDeliveryCount(decoder.readUnsignedInteger(null));

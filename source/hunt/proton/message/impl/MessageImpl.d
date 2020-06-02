@@ -27,6 +27,7 @@ import hunt.proton.codec.DroppingWritableBuffer;
 import hunt.proton.codec.WritableBuffer;
 import hunt.proton.codec.CompositeWritableBuffer;
 
+import hunt.Boolean;
 import hunt.String;
 import hunt.logging;
 
@@ -135,7 +136,7 @@ class MessageImpl : ProtonJMessage
                 return;
             }
         }
-        _header.setDurable(durable);
+        _header.setDurable(new Boolean(durable));
     }
 
     public void setTtl(long ttl)
@@ -180,7 +181,7 @@ class MessageImpl : ProtonJMessage
             }
             _header = new Header();
         }
-        _header.setFirstAcquirer(firstAcquirer);
+        _header.setFirstAcquirer(new Boolean(firstAcquirer));
     }
 
     public void setPriority(short priority)

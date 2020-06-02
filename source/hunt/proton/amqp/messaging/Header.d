@@ -43,9 +43,9 @@ class Header : Section
         return _durable;
     }
 
-    public void setDurable(bool durable)
+    public void setDurable(Boolean durable)
     {
-        _durable = new Boolean(durable);
+        _durable = durable; 
     }
 
     public UnsignedByte getPriority()
@@ -73,9 +73,9 @@ class Header : Section
         return _firstAcquirer;
     }
 
-    public void setFirstAcquirer(bool firstAcquirer)
+    public void setFirstAcquirer(Boolean firstAcquirer)
     {
-        _firstAcquirer = new Boolean(firstAcquirer);
+        _firstAcquirer = firstAcquirer; 
     }
 
     public UnsignedInteger getDeliveryCount()

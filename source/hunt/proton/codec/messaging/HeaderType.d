@@ -137,7 +137,7 @@ class HeaderType : AbstractDescribedType!(Header,List!Object) , DescribedTypeCon
                 o.setDeliveryCount( cast(UnsignedInteger) l.get( 4 ) );
                 goto case;
             case 1:
-                o.setFirstAcquirer( (cast(Boolean) l.get( 3 )).booleanValue() );
+                o.setFirstAcquirer( (cast(Boolean) l.get( 3 )) );
                 goto case;
             case 2:
                 o.setTtl( cast(UnsignedInteger) l.get( 2 ) );
@@ -146,7 +146,7 @@ class HeaderType : AbstractDescribedType!(Header,List!Object) , DescribedTypeCon
                 o.setPriority( cast(UnsignedByte) l.get( 1 ) );
                 goto case;
             case 4:
-                o.setDurable( (cast(Boolean) l.get( 0 )).booleanValue() );
+                o.setDurable( (cast(Boolean) l.get( 0 )) );
                 break;
             default:
                 break;
