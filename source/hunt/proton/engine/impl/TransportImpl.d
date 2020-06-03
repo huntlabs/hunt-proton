@@ -1170,16 +1170,14 @@ class TransportImpl : EndpointImpl, ProtonJTransport, FrameBodyHandler!int,
 
     private void processClose()
     {
-       // logInfo("processClose out -----------------");
+        version(HUNT_DEDBUG) info("Closing...");
         if ((_conditionSet ||
              (_connectionEndpoint !is null &&
               _connectionEndpoint.getLocalState() == EndpointState.CLOSED)) &&
             !_isCloseSent) {
             if(!hasSendableMessages(null))
             {
-               logInfo("processClose in -----------------");
                 Close close = new Close();
-
                 ErrorCondition localError;
 
                 if (_connectionEndpoint is null) {

@@ -24,6 +24,7 @@ import hunt.proton.codec.DescribedTypeConstructor;
 import hunt.proton.codec.EncoderImpl;
 import hunt.logging;
 import hunt.collection.ArrayList;
+import hunt.collection.Collections;
 import std.concurrency : initOnce;
 
 class CloseType : AbstractDescribedType!(Close,List!Object) , DescribedTypeConstructor!(Close)
@@ -61,13 +62,13 @@ class CloseType : AbstractDescribedType!(Close,List!Object) , DescribedTypeConst
     protected List!Object wrap(Close val)
     {
         ErrorCondition errorCondition = val.getError();
-        if (errorCondition !is null)
-        {
+        if (errorCondition is null) {
+            return Collections.emptyList!Object();
+        } else {
             List!Object rt =  new ArrayList!Object;
             rt.add(errorCondition);
             return rt;
         }
-        return null;
     }
 
     public Close newInstance(Object described)

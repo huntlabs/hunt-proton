@@ -52,8 +52,19 @@ abstract class AbstractDescribedType(T,M) : AMQPType!(T)  //!(AmqpValue,Object)
 
     public ITypeEncoding getEncoding(Object v)
     {
+        version(HUNT_AMQP_DEBUG) {
+            if(v is null) {
+                warning("v is null");
+            } else {
+                infof("wrapping %s", typeid(v));
+            }
+        }
 
         T val = cast(T)v;
+
+        if(val is null) {
+            warningf("Wrong casting from '%s' to '%s'", typeid(v), T.stringof);
+        }
         //M asUnderlying = wrap(val);
         //TypeEncoding<M> underlyingEncoding = _encoder.getType(asUnderlying).getEncoding(asUnderlying);
         //TypeEncoding<T> encoding = _encodings.get(underlyingEncoding);
@@ -70,13 +81,21 @@ abstract class AbstractDescribedType(T,M) : AMQPType!(T)  //!(AmqpValue,Object)
         //String
         M asUnderlying = wrap(val); //ArrayList!Object
 
+        if(asUnderlying is null) {
+            warningf("asUnderlying is null for %s", typeid(val));
+        } else {
+            version(HUNT_AMQP_DEBUG) trace(typeid(cast(Object)asUnderlying));
+        }
+
         IAMQPType tt = _encoder.getType(cast(Object)asUnderlying);
+        version(HUNT_AMQP_DEBUG) trace(typeid(cast(Object)tt));
+
        // IAMQPType tt = _encoder.getType(cast(Object)asUnderlying,typeid(M));
        ITypeEncoding typeEncoding = tt.getEncoding(cast(Object)asUnderlying);
         TypeEncoding!(M) underlyingEncoding = cast(TypeEncoding!(M))typeEncoding;
 
         if(underlyingEncoding is null) {
-            warningf("Wrong casting from %s to %s", typeid(typeEncoding), typeid(TypeEncoding!(M)));
+            warningf("Wrong casting from '%s' to '%s'", typeid(typeEncoding), typeid(TypeEncoding!(M)));
             return null;
         }
 

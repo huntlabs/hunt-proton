@@ -11,8 +11,12 @@
 
 module hunt.proton.amqp.DescribedType;
 
-interface DescribedType
-{
-    public Object getDescriptor();
-    public Object getDescribed();
+/**
+ * 
+ */
+interface DescribedType {
+
+    Object getDescriptor();
+
+    Object getDescribed();
 }

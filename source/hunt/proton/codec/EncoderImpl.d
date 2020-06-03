@@ -13,15 +13,6 @@ module hunt.proton.codec.EncoderImpl;
 
 import hunt.proton.codec.AMQPType;
 import hunt.proton.codec.DecoderImpl;
-import hunt.io.ByteBuffer;
-import hunt.time.LocalDateTime;
-import hunt.collection.List;
-import hunt.collection.Map;
-import hunt.Exceptions;
-import hunt.String;
-
-import std.uuid;
-import hunt.logging;
 import hunt.proton.codec.ByteBufferEncoder;
 import hunt.proton.codec.WritableBuffer;
 import hunt.proton.codec.EncodingCodes;
@@ -36,8 +27,6 @@ import hunt.proton.amqp.UnsignedByte;
 import hunt.proton.amqp.UnsignedInteger;
 import hunt.proton.amqp.UnsignedLong;
 import hunt.proton.amqp.UnsignedShort;
-import hunt.collection.HashMap;
-import hunt.collection.ArrayList;
 
 import hunt.proton.codec.NullType;
 import hunt.proton.codec.BooleanType;
@@ -70,19 +59,10 @@ import hunt.proton.codec.SymbolMapType;
 import hunt.proton.codec.DynamicDescribedType;
 import hunt.proton.codec.ObjectMapType;
 import hunt.proton.codec.transport.AttachType;
-
-import hunt.Byte;
-import hunt.Short;
-import hunt.Long;
-import hunt.Integer;
-import hunt.Float;
-import hunt.Double;
-import hunt.Char;
-import hunt.Boolean;
 import hunt.proton.codec.security.SaslInitType;
 import hunt.proton.codec.security.SaslOutcomeType;
 import hunt.proton.codec.security.SaslInitType;
-import  hunt.proton.codec.messaging.TargetType;
+import hunt.proton.codec.messaging.TargetType;
 import hunt.proton.codec.messaging.HeaderType;
 import hunt.proton.codec.messaging.SourceType;
 import hunt.proton.codec.transport.TransferType;
@@ -90,7 +70,7 @@ import hunt.proton.codec.transport.DetachType;
 import hunt.proton.codec.transport.DispositionType;
 import hunt.proton.codec.transaction.DischargeType;
 import hunt.proton.codec.transport.ErrorConditionType;
-import  hunt.proton.codec.transaction.TransactionalStateType;
+import hunt.proton.codec.transaction.TransactionalStateType;
 import hunt.proton.codec.transport.BeginType;
 import hunt.proton.codec.transport.FlowType;
 import hunt.proton.codec.messaging.RejectedType;
@@ -98,6 +78,27 @@ import hunt.proton.codec.messaging.ModifiedType;
 import hunt.proton.codec.transport.OpenType;
 import hunt.proton.codec.messaging.ReceivedType;
 import hunt.proton.codec.messaging.PropertiesType;
+
+import hunt.io.ByteBuffer;
+import hunt.time.LocalDateTime;
+import hunt.collection.List;
+import hunt.collection.Map;
+import hunt.Exceptions;
+import hunt.String;
+
+import std.uuid;
+import hunt.logging.ConsoleLogger;
+import hunt.Byte;
+import hunt.collection.AbstractList;
+import hunt.collection.ArrayList;
+import hunt.collection.HashMap;
+import hunt.Short;
+import hunt.Long;
+import hunt.Integer;
+import hunt.Float;
+import hunt.Double;
+import hunt.Char;
+import hunt.Boolean;
 import hunt.Object;
 
 
@@ -245,13 +246,17 @@ class EncoderImpl : ByteBufferEncoder
     private IAMQPType deduceTypeFromClass(TypeInfo clazz, Object instance) {
         IAMQPType amqpType = null;
 
+        version(HUNT_AMQP_DEBUG) tracef("deducing %s", clazz);
+
         //if(clazz.isArray())
         //{
         //    amqpType = _arrayType;
         //}
         //else
         //{
-            if (typeid(SaslOutcomeWrapper) == clazz)
+            if(typeid(EmptyList!(Object)) == clazz) {
+                amqpType = _listType;
+            } else  if (typeid(SaslOutcomeWrapper) == clazz)
             {
                 amqpType = _listType;
             }
@@ -348,6 +353,17 @@ class EncoderImpl : ByteBufferEncoder
                 amqpType = _describedTypesClassRegistry.get(clazz);
                 if(amqpType is null && instance !is null)
                 {
+                    DescribedType describedType = (cast(DescribedType) instance);
+
+                    version(HUNT_DEBUG) {
+                        if(describedType is null) {
+                            warningf("Can't cast to DescribedType from %s", typeid(instance));
+                        }
+                    }
+
+                    assert(describedType !is null, 
+                        "Can't cast to DescribedType from " ~ typeid(instance).toString());
+
                     Object descriptor = (cast(DescribedType) instance).getDescriptor();
                     amqpType = _describedDescriptorRegistry.get(descriptor);
                     if(amqpType is null)
