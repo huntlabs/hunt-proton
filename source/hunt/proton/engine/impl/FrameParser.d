@@ -425,11 +425,10 @@ class FrameParser : TransportInput
                         FrameBody frameBody = cast(FrameBody) val;
                         if(frameBody !is null)
                         {
-
-                            //if(TRACE_LOGGER.isLoggable(Level.FINE))
-                            //{
-                            //    TRACE_LOGGER.log(Level.FINE, "IN: CH["+channel+"] : " + frameBody + (payload is null ? "" : "[" + payload + "]"));
-                            //}
+                            version(HUNT_AMQP_DEBUG) {
+                                tracef("IN: CH[%d] : %s, %s", channel, frameBody, 
+                                    payload is null ? "" : ", [" ~ payload.toString() ~ "]");
+                            }
                             TransportFrame frame = new TransportFrame(channel, frameBody, payload);
 
                             if(_frameHandler.isHandlingFrames())

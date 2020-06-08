@@ -21,9 +21,9 @@ import hunt.logging;
 import std.concurrency : initOnce;
 
 
-class UnsignedInteger : Number
+class UnsignedInteger : AbstractNumber!int
 {
-    private int _underlying;
+    // private int _underlying;
     //__gshared UnsignedInteger[] cachedValues ;
 
 
@@ -83,66 +83,66 @@ class UnsignedInteger : Number
     //}
 
 
-    this(int underlying)
+    this(int value)
     {
-        _underlying = underlying;
+        super(value);
     }
 
-    override
-    public int intValue()
-    {
-        return _underlying;
-    }
+    // override
+    // public int intValue()
+    // {
+    //     return _underlying;
+    // }
 
-    override
-    public long longValue()
-    {
-        return (_underlying) & 0xFFFFFFFF;
-    }
+    // override
+    // public long longValue()
+    // {
+    //     return (_underlying) & 0xFFFFFFFF;
+    // }
 
-    override
-    public float floatValue()
-    {
-        return cast(float) (longValue());
-    }
+    // override
+    // public float floatValue()
+    // {
+    //     return cast(float) (longValue());
+    // }
 
-    override
-    public double doubleValue()
-    {
-        return cast(double) (longValue());
-    }
+    // override
+    // public double doubleValue()
+    // {
+    //     return cast(double) (longValue());
+    // }
 
-    override bool opEquals(Object o)
-    {
-        if (this is o)
-        {
-            return true;
-        }
-        if (o is null || cast(UnsignedInteger)o is null)
-        {
-            return false;
-        }
+    // override bool opEquals(Object o)
+    // {
+    //     if (this is o)
+    //     {
+    //         return true;
+    //     }
+    //     if (o is null || cast(UnsignedInteger)o is null)
+    //     {
+    //         return false;
+    //     }
 
-        UnsignedInteger that =  cast(UnsignedInteger)o;
+    //     UnsignedInteger that =  cast(UnsignedInteger)o;
 
-        if (_underlying != that.intValue())
-        {
-            return false;
-        }
+    //     if (_underlying != that.intValue())
+    //     {
+    //         return false;
+    //     }
 
-        return true;
-    }
+    //     return true;
+    // }
 
      override int opCmp(Object o)
     {
         return cast(int)(longValue()  - (cast(UnsignedInteger)o).longValue());
     }
 
-    override
-    public  size_t toHash() @trusted nothrow
-    {
-        return  cast(size_t)_underlying;
-    }
+    // override
+    // public  size_t toHash() @trusted nothrow
+    // {
+    //     return  cast(size_t)_underlying;
+    // }
     //
     //override
     //public string toString()
@@ -164,13 +164,13 @@ class UnsignedInteger : Number
 
     public UnsignedInteger add(UnsignedInteger i)
     {
-        int val = _underlying + i.intValue();
+        int val = intValue() + i.intValue();
         return UnsignedInteger.valueOf(val);
     }
 
     public UnsignedInteger subtract(UnsignedInteger i)
     {
-        int val = _underlying - i.intValue();
+        int val = intValue() - i.intValue();
         return UnsignedInteger.valueOf(val);
     }
 
@@ -190,19 +190,19 @@ class UnsignedInteger : Number
     }
 
 
-    override
-    byte byteValue()
-    {
-        return 1;
-    }
+    // override
+    // byte byteValue()
+    // {
+    //     return 1;
+    // }
 
-    override short shortValue()
-    {
-        return 1;
-    }
+    // override short shortValue()
+    // {
+    //     return 1;
+    // }
 
-    override string toString()
-    {
-        return "";
-    }
+    // override string toString()
+    // {
+    //     return "";
+    // }
 }

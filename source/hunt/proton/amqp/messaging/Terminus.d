@@ -35,18 +35,6 @@ abstract class Terminus
     private IObject _dynamicNodeProperties;
     private List!Symbol _capabilities;
 
-    override
-    string toString()
-    {
-        return "Terminus: " ~ "_address = " ~ (_address is null ? "null": _address.value) ~
-        " _durable = " ~ (_durable is null? "null": to!string(_durable.ordinal)) ~
-        " _expiryPolicy = " ~ ( _expiryPolicy is null ? "null": _expiryPolicy.getPolicy.toString) ~
-        " _timeout = " ~ (_timeout is null ? "null" : to!string(_timeout.intValue())) ~
-        " _dynamic = " ~ (_dynamic is null ? "null" : to!string(_dynamic.booleanValue())) ~
-        " _dynamicNodeProperties = " ~ (_dynamicNodeProperties is null ? "null" : "") ~
-        " _capabilities = " ~ (_capabilities is null ? "null" : "") ;
-    }
-
     this(Terminus other) {
         _address = other._address;
         _durable = other._durable;

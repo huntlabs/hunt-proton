@@ -159,6 +159,21 @@ class Begin : FrameBody
         handler.handleBegin(this, payload, context);
     }
 
+    override string toString() {
+        // dfmt off
+        return "Begin{" ~
+               "remoteChannel=" ~ _remoteChannel.toString() ~
+               ", nextOutgoingId=" ~ _nextOutgoingId.toString() ~
+               ", incomingWindow=" ~ _incomingWindow.toString() ~
+               ", outgoingWindow=" ~ _outgoingWindow.toString() ~
+               ", handleMax=" ~ _handleMax.toString() ~
+               ", offeredCapabilities=" ~ (_offeredCapabilities is null ? "null" : _offeredCapabilities.toString()) ~
+               ", desiredCapabilities=" ~ (_desiredCapabilities is null ? "null" : _desiredCapabilities.toString()) ~
+               ", properties=" ~ (_properties is null ? "null" : _properties.toString()) ~
+               "}";
+        // dfmt on
+    }    
+
     public FrameBody copy()
     {
         return new Begin(this);

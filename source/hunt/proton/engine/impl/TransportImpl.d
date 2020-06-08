@@ -1574,7 +1574,6 @@ class TransportImpl : EndpointImpl, ProtonJTransport, FrameBodyHandler!int,
         Close close = cast(Close)frame.getBody();
         if (close !is null)
         {
-            warning("ddddddddddddddd");
             close.invoke(this,frame.getPayload(), frame.getChannel());
             return _closeReceived;
         }

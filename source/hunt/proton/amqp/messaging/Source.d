@@ -11,13 +11,14 @@
 module hunt.proton.amqp.messaging.Source;
 
 
-import hunt.Object;
 import hunt.proton.amqp.Symbol;
 import hunt.proton.amqp.messaging.Terminus;
 import hunt.proton.amqp.transport.Source;
 import hunt.proton.amqp.messaging.Outcome;
+
 import hunt.collection.List;
 import hunt.collection.ArrayList;
+import hunt.Object;
 import hunt.String;
 
 class Source : Terminus, hunt.proton.amqp.transport.Source.Source
@@ -27,14 +28,14 @@ class Source : Terminus, hunt.proton.amqp.transport.Source.Source
     private Outcome _defaultOutcome;
     private List!Symbol _outcomes;
 
-    override
-    string toString()
-    {
-        return "source: " ~ "_distributionMode = " ~ (_distributionMode is null ? "null": "") ~
-                " _filter = " ~ (_filter is null? "null": "") ~
-                " _defaultOutcome = " ~ ( _defaultOutcome is null ? "null": "") ~
-                " _outcomes = " ~ (_outcomes is null ? "null" : "") ;
-    }
+    // override
+    // string toString()
+    // {
+    //     return "source: " ~ "_distributionMode = " ~ (_distributionMode is null ? "null": "") ~
+    //             " _filter = " ~ (_filter is null? "null": "") ~
+    //             " _defaultOutcome = " ~ ( _defaultOutcome is null ? "null": "") ~
+    //             " _outcomes = " ~ (_outcomes is null ? "null" : "") ;
+    // }
 
     this(Source other) {
         super(other);
@@ -90,11 +91,30 @@ class Source : Terminus, hunt.proton.amqp.transport.Source.Source
         _outcomes = outcomes;
     }
 
+    override string toString()
+    {
+        String address = getAddress();
+        IObject nodeProperties = getDynamicNodeProperties();
+        
+        return "Source{" ~
+               "address='" ~ (address is null ? "null" : address.toString()) ~ '\'' ~
+               ", durable=" ~ getDurable().toString() ~
+               ", expiryPolicy=" ~ getExpiryPolicy().toString() ~
+               ", timeout=" ~ getTimeout().toString() ~
+               ", dynamic=" ~ getDynamic().toString() ~
+               ", dynamicNodeProperties=" ~ (nodeProperties is null ? "null" : nodeProperties.toString()) ~
+               ", distributionMode=" ~ (_distributionMode is null ? "null" : _distributionMode.toString()) ~
+               ", filter=" ~ (_filter is null ? "null" : _filter.toString()) ~
+               ", defaultOutcome=" ~ (_defaultOutcome is null ? "null" : (cast(Object)_defaultOutcome).toString()) ~
+               ", outcomes=" ~ (_outcomes is null ? "null" : _outcomes.toString()) ~
+               ", capabilities=" ~ (getCapabilities() is null ? "null" : getCapabilities().toString()) ~
+               '}';
+    }
+
     override
     public hunt.proton.amqp.transport.Source.Source copy() {
         return new Source(this);
     }
-
 
     override
     String getAddress()

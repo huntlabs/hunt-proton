@@ -14,6 +14,8 @@ module hunt.proton.amqp.messaging.Target;
 
 import hunt.proton.amqp.messaging.Terminus;
 import hunt.proton.amqp.transport.Target;
+
+import hunt.Object;
 import hunt.String;
 
 class Target : Terminus ,hunt.proton.amqp.transport.Target.Target
@@ -26,10 +28,26 @@ class Target : Terminus ,hunt.proton.amqp.transport.Target.Target
 
     }
 
+    // override string toString()
+    // {
+    //     return super.toString;
+    // }
     override string toString()
     {
-        return super.toString;
-    }
+        String address = getAddress();
+        IObject nodeProperties = getDynamicNodeProperties();
+
+        return "Target{" ~
+               "address='" ~ (address is null ? "null" : address.toString()) ~ '\'' ~
+               ", durable=" ~ getDurable().toString() ~
+               ", expiryPolicy=" ~ getExpiryPolicy().toString() ~
+               ", timeout=" ~ getTimeout().toString() ~
+               ", dynamic=" ~ getDynamic().toString() ~
+               ", dynamicNodeProperties=" ~ (nodeProperties is null ? "null" : nodeProperties.toString()) ~
+               ", capabilities=" ~ (getCapabilities() is null ? "null" : getCapabilities().toString()) ~
+               '}';
+    }    
+
     override
     public hunt.proton.amqp.transport.Target.Target copy() {
         return new Target(this);

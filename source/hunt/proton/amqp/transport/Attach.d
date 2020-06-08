@@ -49,30 +49,6 @@ class Attach : FrameBody
     private List!Symbol _desiredCapabilities;
     private Map!(Symbol,Object) _properties;
 
-
-    override
-    public string toString()
-    {
-        string att = "Attach{";
-
-       return att ~ "name=" ~ _name.value ~
-        ", handle=" ~ (to!string(_handle.intValue)) ~
-        ", role=" ~ (to!string(_role.ordinal)) ~
-        ", sndSettleMode=" ~ (to!string(_sndSettleMode.getValue.intValue)) ~
-        ", rcvSettleMode=" ~ (to!string(_rcvSettleMode.getValue.intValue) )~
-        ", source="  ~ _source.toString ~
-        ", target="  ~ _target.toString ~
-        ", unsettled=" ~ (_unsettled is null ? "null" : "") ~
-        ", incompleteUnsettled=" ~  (_incompleteUnsettled is null ? "null" : to!string(_incompleteUnsettled.booleanValue())) ~
-        ", initialDeliveryCount=" ~ ( _initialDeliveryCount is null ? "null": to!string(_initialDeliveryCount.intValue)) ~
-        ", maxMessageSize=" ~ (_maxMessageSize is null ? "null" :  to!string(_maxMessageSize.longValue())) ~
-        ", offeredCapabilities=" ~ (_offeredCapabilities is null ? "null" : "") ~
-        ", desiredCapabilities=" ~ (_desiredCapabilities is null ? "null" : "") ~
-        ", properties=" ~ (_properties is null? "null":"") ~
-        '}';
-    }
-
-
     this() {
         _sndSettleMode = SenderSettleMode.MIXED;
         _rcvSettleMode = ReceiverSettleMode.FIRST;
@@ -274,6 +250,29 @@ class Attach : FrameBody
         handler.handleAttach(this, payload, context);
     }
 
+
+    override
+    string toString()
+    {
+        string att = "Attach{" ~ 
+            "name=" ~ _name.value ~
+            ", handle=" ~ (to!string(_handle.intValue)) ~
+            ", role=" ~ (to!string(_role.ordinal)) ~
+            ", sndSettleMode=" ~ (to!string(_sndSettleMode.getValue.intValue)) ~
+            ", rcvSettleMode=" ~ (to!string(_rcvSettleMode.getValue.intValue) )~
+            ", source="  ~ (_source is null ? "null" : _source.toString()) ~
+            ", target="  ~ (_target is null ? "null" : _target.toString()) ~
+            ", unsettled=" ~ (_unsettled is null ? "null" : _unsettled.toString()) ~
+            ", incompleteUnsettled=" ~  (_incompleteUnsettled is null ? "null" : _incompleteUnsettled.toString()) ~
+            ", initialDeliveryCount=" ~ ( _initialDeliveryCount is null ? "null": _initialDeliveryCount.toString()) ~
+            ", maxMessageSize=" ~ (_maxMessageSize is null ? "null" :  _maxMessageSize.toString()) ~
+            ", offeredCapabilities=" ~ (_offeredCapabilities is null ? "null" : _offeredCapabilities.toString()) ~
+            ", desiredCapabilities=" ~ (_desiredCapabilities is null ? "null" : _desiredCapabilities.toString()) ~
+            ", properties=" ~ (_properties is null? "null": _properties.toString()) ~
+            '}';
+
+        return att;
+    }
 
     public FrameBody copy()
     {

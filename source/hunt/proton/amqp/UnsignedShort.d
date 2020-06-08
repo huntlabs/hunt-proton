@@ -19,9 +19,9 @@ import hunt.logging;
 
 import std.concurrency : initOnce;
 
-class UnsignedShort : Number
+class UnsignedShort : AbstractNumber!short
 {
-    private short _underlying;
+    // private short _underlying;
    // private static UnsignedShort[] cachedValues = new UnsignedShort[256];
    // static UnsignedShort MAX_VALUE;
 
@@ -47,71 +47,71 @@ class UnsignedShort : Number
         return rt;
     }
 
-    this(short underlying)
+    this(short value)
     {
-        _underlying = underlying;
+        super(value);
     }
 
-    public short shortValue()
-    {
-        return _underlying;
-    }
+    // public short shortValue()
+    // {
+    //     return _underlying;
+    // }
 
-    override
-    public int intValue()
-    {
-        return _underlying & 0xFFFF;
-    }
+    // override
+    // public int intValue()
+    // {
+    //     return _underlying & 0xFFFF;
+    // }
 
-    override
-    public long longValue()
-    {
-        return (cast(long) (_underlying)) & 0xFFFF;
-    }
+    // override
+    // public long longValue()
+    // {
+    //     return (cast(long) (_underlying)) & 0xFFFF;
+    // }
 
-    override
-    public float floatValue()
-    {
-        return cast(float) (intValue());
-    }
+    // override
+    // public float floatValue()
+    // {
+    //     return cast(float) (intValue());
+    // }
 
-    override
-    public double doubleValue()
-    {
-        return cast(double) (intValue());
-    }
+    // override
+    // public double doubleValue()
+    // {
+    //     return cast(double) (intValue());
+    // }
 
-    override bool opEquals(Object o)
-    {
-        if (this is o)
-        {
-            return true;
-        }
-        if (o is null || cast(UnsignedShort)o is null)
-        {
-            return false;
-        }
+    // override bool opEquals(Object o)
+    // {
+    //     if (this is o)
+    //     {
+    //         return true;
+    //     }
+    //     if (o is null || cast(UnsignedShort)o is null)
+    //     {
+    //         return false;
+    //     }
 
-        UnsignedShort that = cast(UnsignedShort) o;
+    //     UnsignedShort that = cast(UnsignedShort) o;
 
-        if (_underlying != that.shortValue())
-        {
-            return false;
-        }
+    //     if (_underlying != that.shortValue())
+    //     {
+    //         return false;
+    //     }
 
-        return true;
-    }
+    //     return true;
+    // }
 
     override int opCmp(Object o)
     {
         return intValue() - (cast(UnsignedShort)o).intValue();
     }
 
-    override
-    public  size_t toHash() @trusted nothrow
-    {
-        return cast(size_t)_underlying;
-    }
+    // override
+    // public  size_t toHash() @trusted nothrow
+    // {
+    //     return cast(size_t)_underlying;
+    // }
     //
     //override
     //public String toString()
@@ -143,15 +143,15 @@ class UnsignedShort : Number
     }
 
 
-    override
-    byte byteValue()
-    {
-        return 1;
-    }
+    // override
+    // byte byteValue()
+    // {
+    //     return 1;
+    // }
 
 
-    override string toString()
-    {
-        return "";
-    }
+    // override string toString()
+    // {
+    //     return "";
+    // }
 }
