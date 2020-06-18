@@ -110,52 +110,53 @@ class BaseHandler : CoreHandler
 	
 	public void handle(Event e) {
         int type = e.getType().ordinal;
-        const int CONNECTION_INIT = Type.CONNECTION_INIT.ordinal;
-        const int CONNECTION_LOCAL_OPEN =Type.CONNECTION_LOCAL_OPEN.ordinal;
-        const int CONNECTION_REMOTE_OPEN = Type.CONNECTION_REMOTE_OPEN.ordinal;
-        const int CONNECTION_LOCAL_CLOSE = Type.CONNECTION_LOCAL_CLOSE.ordinal;
-        const int CONNECTION_REMOTE_CLOSE =  Type.CONNECTION_REMOTE_CLOSE.ordinal;
-        const int CONNECTION_BOUND = Type.CONNECTION_BOUND.ordinal;
-        const int CONNECTION_UNBOUND = Type.CONNECTION_UNBOUND.ordinal;
-        const int CONNECTION_FINAL = Type.CONNECTION_FINAL.ordinal;
+
+        enum CONNECTION_INIT =   AmqpEventType.CONNECTION_INIT.ordinal;
+        enum CONNECTION_LOCAL_OPEN =AmqpEventType.CONNECTION_LOCAL_OPEN.ordinal;
+        enum CONNECTION_REMOTE_OPEN = AmqpEventType.CONNECTION_REMOTE_OPEN.ordinal;
+        enum CONNECTION_LOCAL_CLOSE = AmqpEventType.CONNECTION_LOCAL_CLOSE.ordinal;
+        enum CONNECTION_REMOTE_CLOSE =  AmqpEventType.CONNECTION_REMOTE_CLOSE.ordinal;
+        enum CONNECTION_BOUND = AmqpEventType.CONNECTION_BOUND.ordinal;
+        enum CONNECTION_UNBOUND = AmqpEventType.CONNECTION_UNBOUND.ordinal;
+        enum CONNECTION_FINAL = AmqpEventType.CONNECTION_FINAL.ordinal;
 
 
-        const int SESSION_INIT = Type.SESSION_INIT.ordinal;
-        const int SESSION_LOCAL_OPEN = Type.SESSION_LOCAL_OPEN.ordinal;
-        const int SESSION_REMOTE_OPEN = Type.SESSION_REMOTE_OPEN.ordinal;
-        const int SESSION_LOCAL_CLOSE = Type.SESSION_LOCAL_CLOSE.ordinal;
-        const int SESSION_REMOTE_CLOSE = Type.SESSION_REMOTE_CLOSE.ordinal;
-        const int SESSION_FINAL =  Type.SESSION_FINAL.ordinal;
+        enum SESSION_INIT = AmqpEventType.SESSION_INIT.ordinal;
+        enum SESSION_LOCAL_OPEN = AmqpEventType.SESSION_LOCAL_OPEN.ordinal;
+        enum SESSION_REMOTE_OPEN = AmqpEventType.SESSION_REMOTE_OPEN.ordinal;
+        enum SESSION_LOCAL_CLOSE = AmqpEventType.SESSION_LOCAL_CLOSE.ordinal;
+        enum SESSION_REMOTE_CLOSE = AmqpEventType.SESSION_REMOTE_CLOSE.ordinal;
+        enum SESSION_FINAL =  AmqpEventType.SESSION_FINAL.ordinal;
 
 
-        const int LINK_INIT =  Type.LINK_INIT.ordinal;
-        const int LINK_LOCAL_OPEN = Type.LINK_LOCAL_OPEN.ordinal;
-        const int LINK_REMOTE_OPEN = Type.LINK_REMOTE_OPEN.ordinal;
-        const int LINK_LOCAL_DETACH = Type.LINK_LOCAL_DETACH.ordinal;
-        const int LINK_REMOTE_DETACH = Type.LINK_REMOTE_DETACH.ordinal;
-        const int LINK_LOCAL_CLOSE = Type.LINK_LOCAL_CLOSE.ordinal;
-        const int LINK_REMOTE_CLOSE = Type.LINK_REMOTE_CLOSE.ordinal;
-        const int LINK_FLOW = Type.LINK_FLOW.ordinal;
-        const int LINK_FINAL =  Type.LINK_FINAL.ordinal;
-        const int DELIVERY = Type.DELIVERY.ordinal;
-        const int TRANSPORT =  Type.TRANSPORT.ordinal;
-        const int TRANSPORT_ERROR = Type.TRANSPORT_ERROR.ordinal;
-        const int TRANSPORT_HEAD_CLOSED = Type.TRANSPORT_HEAD_CLOSED.ordinal;
-        const int TRANSPORT_TAIL_CLOSED = Type.TRANSPORT_TAIL_CLOSED.ordinal;
-        const int TRANSPORT_CLOSED = Type.TRANSPORT_CLOSED.ordinal;
-        const int REACTOR_FINAL = Type.REACTOR_FINAL.ordinal;
-        const int REACTOR_QUIESCED = Type.REACTOR_QUIESCED.ordinal;
-        const int REACTOR_INIT = Type.REACTOR_INIT.ordinal;
-        const int SELECTABLE_ERROR = Type.SELECTABLE_ERROR.ordinal;
-        const int SELECTABLE_EXPIRED = Type.SELECTABLE_EXPIRED.ordinal;
-        const int SELECTABLE_FINAL = Type.SELECTABLE_FINAL.ordinal;
-        const int SELECTABLE_INIT = Type.SELECTABLE_INIT.ordinal;
-        const int SELECTABLE_READABLE = Type.SELECTABLE_READABLE.ordinal;
-        const int SELECTABLE_UPDATED = Type.SELECTABLE_UPDATED.ordinal;
-        const int SELECTABLE_WRITABLE = Type.SELECTABLE_WRITABLE.ordinal;
-        const int TIMER_TASK = Type.TIMER_TASK.ordinal;
-        const int NON_CORE_EVENT = Type.NON_CORE_EVENT.ordinal;
-
+        enum LINK_INIT =  AmqpEventType.LINK_INIT.ordinal;
+        enum LINK_LOCAL_OPEN = AmqpEventType.LINK_LOCAL_OPEN.ordinal;
+        enum LINK_REMOTE_OPEN = AmqpEventType.LINK_REMOTE_OPEN.ordinal;
+        enum LINK_LOCAL_DETACH = AmqpEventType.LINK_LOCAL_DETACH.ordinal;
+        enum LINK_REMOTE_DETACH = AmqpEventType.LINK_REMOTE_DETACH.ordinal;
+        enum LINK_LOCAL_CLOSE = AmqpEventType.LINK_LOCAL_CLOSE.ordinal;
+        enum LINK_REMOTE_CLOSE = AmqpEventType.LINK_REMOTE_CLOSE.ordinal;
+        enum LINK_FLOW = AmqpEventType.LINK_FLOW.ordinal;
+        enum LINK_FINAL =  AmqpEventType.LINK_FINAL.ordinal;
+        enum DELIVERY = AmqpEventType.DELIVERY.ordinal;
+        enum TRANSPORT =  AmqpEventType.TRANSPORT.ordinal;
+        enum TRANSPORT_ERROR = AmqpEventType.TRANSPORT_ERROR.ordinal;
+        enum TRANSPORT_HEAD_CLOSED = AmqpEventType.TRANSPORT_HEAD_CLOSED.ordinal;
+        enum TRANSPORT_TAIL_CLOSED = AmqpEventType.TRANSPORT_TAIL_CLOSED.ordinal;
+        enum TRANSPORT_CLOSED = AmqpEventType.TRANSPORT_CLOSED.ordinal;
+        enum REACTOR_FINAL = AmqpEventType.REACTOR_FINAL.ordinal;
+        enum REACTOR_QUIESCED = AmqpEventType.REACTOR_QUIESCED.ordinal;
+        enum REACTOR_INIT = AmqpEventType.REACTOR_INIT.ordinal;
+        enum SELECTABLE_ERROR = AmqpEventType.SELECTABLE_ERROR.ordinal;
+        enum SELECTABLE_EXPIRED = AmqpEventType.SELECTABLE_EXPIRED.ordinal;
+        enum SELECTABLE_FINAL = AmqpEventType.SELECTABLE_FINAL.ordinal;
+        enum SELECTABLE_INIT = AmqpEventType.SELECTABLE_INIT.ordinal;
+        enum SELECTABLE_READABLE = AmqpEventType.SELECTABLE_READABLE.ordinal;
+        enum SELECTABLE_UPDATED = AmqpEventType.SELECTABLE_UPDATED.ordinal;
+        enum SELECTABLE_WRITABLE = AmqpEventType.SELECTABLE_WRITABLE.ordinal;
+        enum TIMER_TASK = AmqpEventType.TIMER_TASK.ordinal;
+        enum NON_CORE_EVENT = AmqpEventType.NON_CORE_EVENT.ordinal;
+        
         switch (type) {
         case CONNECTION_INIT:
             onConnectionInit(e);

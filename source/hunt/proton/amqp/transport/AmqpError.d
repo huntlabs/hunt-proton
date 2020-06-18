@@ -84,10 +84,10 @@ interface AmqpError
         return initOnce!inst(Symbol.valueOf("amqp:frame-size-too-small"));
     }
 
-    static Symbol FRAME_SIZE_TOO_SMALL()
-    {
-        __gshared Symbol inst;
-        return initOnce!inst(Symbol.valueOf("amqp:frame-size-too-small"));
-    }
+    // static Symbol FRAME_SIZE_TOO_SMALL()
+    // {
+    //     __gshared Symbol inst;
+    //     return initOnce!inst(Symbol.valueOf("amqp:frame-size-too-small"));
+    // }
 
 }

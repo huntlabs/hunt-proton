@@ -89,6 +89,66 @@ import std.concurrency : initOnce;
 //    NON_CORE_EVENT
 //}
 
+struct AmqpEventType {
+    string name;
+
+    int ordinal;
+
+    enum AmqpEventType REACTOR_INIT = AmqpEventType("REACTOR_INIT",0);
+    enum AmqpEventType REACTOR_QUIESCED = AmqpEventType("REACTOR_QUIESCED",1);
+    enum AmqpEventType REACTOR_FINAL = AmqpEventType("REACTOR_FINAL",2);
+    enum AmqpEventType TIMER_TASK = AmqpEventType("TIMER_TASK",3);
+    enum AmqpEventType CONNECTION_INIT = AmqpEventType("CONNECTION_INIT",4);
+    enum AmqpEventType CONNECTION_BOUND = AmqpEventType("CONNECTION_BOUND",5);
+    enum AmqpEventType CONNECTION_UNBOUND = AmqpEventType("CONNECTION_UNBOUND",6);
+    enum AmqpEventType CONNECTION_LOCAL_OPEN = AmqpEventType("CONNECTION_LOCAL_OPEN",7);
+    enum AmqpEventType CONNECTION_REMOTE_OPEN = AmqpEventType("CONNECTION_REMOTE_OPEN",8);
+    enum AmqpEventType CONNECTION_LOCAL_CLOSE = AmqpEventType("CONNECTION_LOCAL_CLOSE",9);
+    enum AmqpEventType CONNECTION_REMOTE_CLOSE = AmqpEventType("CONNECTION_REMOTE_CLOSE",10);
+    enum AmqpEventType CONNECTION_FINAL = AmqpEventType("CONNECTION_FINAL",11);
+    enum AmqpEventType SESSION_INIT = AmqpEventType("SESSION_INIT",12);
+    enum AmqpEventType SESSION_LOCAL_OPEN = AmqpEventType("SESSION_LOCAL_OPEN",13);
+    enum AmqpEventType SESSION_REMOTE_OPEN = AmqpEventType("SESSION_REMOTE_OPEN",14);
+    enum AmqpEventType SESSION_LOCAL_CLOSE = AmqpEventType("SESSION_LOCAL_CLOSE",15);
+    enum AmqpEventType SESSION_REMOTE_CLOSE = AmqpEventType("SESSION_REMOTE_CLOSE",16);
+    enum AmqpEventType SESSION_FINAL = AmqpEventType("SESSION_FINAL",17);
+    enum AmqpEventType LINK_INIT = AmqpEventType("LINK_INIT",18);
+    enum AmqpEventType LINK_LOCAL_OPEN = AmqpEventType("LINK_LOCAL_OPEN",19);
+    enum AmqpEventType LINK_REMOTE_OPEN = AmqpEventType("LINK_REMOTE_OPEN",20);
+    enum AmqpEventType LINK_LOCAL_DETACH = AmqpEventType("LINK_LOCAL_DETACH",21);
+    enum AmqpEventType LINK_REMOTE_DETACH = AmqpEventType("LINK_REMOTE_DETACH",22);
+    enum AmqpEventType LINK_LOCAL_CLOSE = AmqpEventType("LINK_LOCAL_CLOSE",23);
+    enum AmqpEventType LINK_REMOTE_CLOSE = AmqpEventType("LINK_REMOTE_CLOSE",24);
+    enum AmqpEventType LINK_FLOW = AmqpEventType("LINK_FLOW",25);
+    enum AmqpEventType LINK_FINAL = AmqpEventType("LINK_FINAL",26);
+    enum AmqpEventType DELIVERY = AmqpEventType("DELIVERY",27);
+    enum AmqpEventType TRANSPORT = AmqpEventType("TRANSPORT",28);
+    enum AmqpEventType TRANSPORT_ERROR = AmqpEventType("TRANSPORT_ERROR",29);
+    enum AmqpEventType TRANSPORT_HEAD_CLOSED = AmqpEventType("TRANSPORT_HEAD_CLOSED",30);
+    enum AmqpEventType TRANSPORT_TAIL_CLOSED = AmqpEventType("TRANSPORT_TAIL_CLOSED",31);
+    enum AmqpEventType TRANSPORT_CLOSED = AmqpEventType("TRANSPORT_CLOSED",32);
+    enum AmqpEventType SELECTABLE_INIT = AmqpEventType("SELECTABLE_INIT",33);
+    enum AmqpEventType SELECTABLE_UPDATED = AmqpEventType("SELECTABLE_UPDATED",34);
+    enum AmqpEventType SELECTABLE_READABLE = AmqpEventType("SELECTABLE_READABLE",35);
+    enum AmqpEventType SELECTABLE_WRITABLE = AmqpEventType("SELECTABLE_WRITABLE",36);
+    enum AmqpEventType SELECTABLE_EXPIRED = AmqpEventType("SELECTABLE_EXPIRED",37);
+    enum AmqpEventType SELECTABLE_ERROR = AmqpEventType("SELECTABLE_ERROR",38);
+    enum AmqpEventType SELECTABLE_FINAL = AmqpEventType("SELECTABLE_FINAL",39);
+    enum AmqpEventType NON_CORE_EVENT = AmqpEventType("NON_CORE_EVENT",40);
+
+    bool opEquals(const AmqpEventType s) {
+        return ordinal == s.ordinal;
+    }   
+    
+    bool opEquals(ref const AmqpEventType s) {
+        return ordinal == s.ordinal;
+    }
+
+    bool isValid() {
+       return this == NON_CORE_EVENT? false : true;
+    }
+}
+
 
 class Type : AbstractEnum!Type , EventType {
 
